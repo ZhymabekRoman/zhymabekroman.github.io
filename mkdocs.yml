@@ -1,7 +1,7 @@
 site_name: ZhymabekRoman's blog site
 site_description: "My thoughts, projects and etc."
-repo_url: "https://github.com/ZhymabekRoman/blog"
-repo_name: "ZhymabekRoman/blog"
+repo_url: "https://github.com/ZhymabekRoman/zhymabekroman.github.io"
+repo_name: "ZhymabekRoman.github.io"
 
 nav:
   - Home: index.md

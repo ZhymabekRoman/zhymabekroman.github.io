@@ -20,4 +20,6 @@ My must have browser extensions
 6. Refined GitHub - extension that enhances the user interface and functionality of GitHub.
 7. [Bypass Paywalls Clean](https://gitlab.com/magnolia1234/bypass-paywalls-chrome-clean/) - access to online publishing platforms without paying for a subscription or a membership.
 8. [Bing Chat for All Browsers](https://github.com/anaclumos/bing-chat-for-all-browsers) - enables Bing AI in Edge rather browsers.
-
+9. Decentraleyes - Local emulation of Content Delivery Networks. Enhances your online privacy.
+10. Tabliss - A beautiful, customisable New Tab page.
+11. ClearURLs - Remove tracking elements from URLs.
