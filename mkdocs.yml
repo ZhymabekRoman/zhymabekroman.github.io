@@ -52,3 +52,6 @@ theme:
 
 extra_css:
 - css/custom.css
+
+extra_javascript:
+- javascripts/yandex_metrika.js
