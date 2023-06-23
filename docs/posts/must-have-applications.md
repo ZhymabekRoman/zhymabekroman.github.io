@@ -6,6 +6,8 @@ authors:
   - Zhymabek Roman
 tags: applications linux android must-have essential
 hide: [toc]
+# Image source: https://pixabay.com/vectors/forest-winter-tree-landscape-4824759/
+cover_image: forest.png
 ---
 
 These are my recommended must-have applications that you should try to use (at least). Sure, tastes differ, but these apps cover most of my needs. I preffer to use FOS application, and I strive to achieve this in every way possible.

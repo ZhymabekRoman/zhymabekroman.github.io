@@ -1,15 +1,15 @@
-site_name: ZhymabekRoman's blog site
+site_name: Zhymabek Roman's blog site
 site_description: "My thoughts, projects and etc."
 repo_url: "https://github.com/ZhymabekRoman/zhymabekroman.github.io"
 repo_name: "ZhymabekRoman.github.io"
 
 nav:
   - Home: index.md
-  - About: about.md
   - Posts:
     - 2023:
       - posts/must-have-applications.md
       - posts/must-have-browser-extensions.md
+  - About: about.md
 
 theme:
   name: 'material'
@@ -31,21 +31,15 @@ theme:
   - search.suggest
   - toc.follow
   palette:
-  - media: "(prefers-color-scheme)"
-    toggle:
-      icon: material/brightness-auto
-      name: Switch to light mode
-  - media: "(prefers-color-scheme: light)"
-    scheme: default
-    primary: teal
-    accent: purple
+  - scheme: slate
+    primary: black
+    accent: violet
     toggle:
       icon: material/weather-sunny
       name: Switch to dark mode
-  - media: "(prefers-color-scheme: dark)"
-    scheme: slate
-    primary: black
-    accent: lime
+  - scheme: default
+    primary: violet
+    accent: black
     toggle:
       icon: material/weather-night
       name: Switch to system preference

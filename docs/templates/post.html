@@ -10,6 +10,9 @@
   {% if page.meta.image and page.meta.image.add_to_post %}
     <div class="{{ page.meta.image.class }}"><img src="{{ page.meta.image.src }}"/></div>
   {% endif %}
+  {% if page.meta.cover_image %}
+    <img src="/statics/posts/{{ page.meta.cover_image }}" alt="Cover image">
+  {% endif %}
   {{ page.content }}
   <!--
   <!-- Giscus -->
