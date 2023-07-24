@@ -10,6 +10,7 @@ nav:
       - posts/must-have-applications.md
       - posts/must-have-browser-extensions.md
       - posts/custom-telegram-client-api-credits.md
+      - posts/transcribe-trial-reset.md
   - About: about.md
 
 theme:
