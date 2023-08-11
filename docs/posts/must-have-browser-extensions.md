@@ -23,3 +23,4 @@ My must have browser extensions
 9. Decentraleyes - Local emulation of Content Delivery Networks. Enhances your online privacy.
 10. Tabliss - A beautiful, customisable New Tab page.
 11. ClearURLs - Remove tracking elements from URLs.
+12. [Picture-in-Picture Extension](https://chrome.google.com/webstore/detail/picture-in-picture-extens/hkgfoiooedgoejojocmhlaklaeopbecg) - just use it:)
