@@ -12,6 +12,9 @@ There are Telegram Custom Clients API crenetials.
 
 <!--more-->
 
+Disclaimer 1: I don't own any of them. These credentials are for educational purposes only and taken from open sources.
+Disclaimer 2: You can't just copy and paste official client credentials into custom builded client. Telegram server doesn't let you to have more than 1 account. If you want see this limitation in real world use [Telegraher](https://github.com/nikitasius/Telegraher) (outdated).
+
 ## Android
 ### Official
 - APP_ID = 4
@@ -36,3 +39,7 @@ There are Telegram Custom Clients API crenetials.
 ### NekoX (???)
 - APP_ID = 1391584
 - APP_HASH = "355c91550b0d658cfb7ff89dcf91a08c"
+
+### TurboTel:
+- APP_ID = 49985
+- APP_HASH = "76cac4363826d1e762d41399839a5870"
