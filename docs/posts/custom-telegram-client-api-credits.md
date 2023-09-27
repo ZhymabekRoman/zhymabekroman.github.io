@@ -43,3 +43,7 @@ Disclaimer 2: You can't just copy and paste official client credentials into cus
 ### TurboTel:
 - APP_ID = 49985
 - APP_HASH = "76cac4363826d1e762d41399839a5870"
+
+### MDGram
+- APP_ID = 16536302
+- APP_HASH = "4787579b87a92c960d802d922de60f9d"
