@@ -46,6 +46,11 @@ theme:
       icon: material/weather-night
       name: Switch to system preference
 
+plugins:
+  - redirects:
+      redirect_maps:
+        'about.md': 'https://github.com/ZhymabekRoman'
+
 extra_css:
 - css/custom.css
 
