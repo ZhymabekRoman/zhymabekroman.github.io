@@ -11,6 +11,8 @@ nav:
       - posts/must-have-browser-extensions.md
       - posts/custom-telegram-client-api-credits.md
       - posts/transcribe-trial-reset.md
+    - 2024:
+      - posts/whatsapp-api.md
   - About: about.md
 
 theme:
