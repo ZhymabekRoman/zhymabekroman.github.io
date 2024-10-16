@@ -8,7 +8,6 @@ tags: applications linux android must-have essential
 hide:
   - toc
 ---
-
 These are my recommended must-have applications that you should try to use (at least). Sure, tastes differ, but these apps cover most of my needs. I prefer to use FOSS, and I strive to achieve this in every way possible.
 
 <!--more-->
