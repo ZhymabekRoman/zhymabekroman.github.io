@@ -13,7 +13,13 @@ There are Telegram Custom Clients API crenetials.
 <!--more-->
 
 Disclaimer 1: I don't own any of them. These credentials are for educational purposes only and taken from open sources.
+
 Disclaimer 2: You can't just copy and paste official client credentials into custom builded client. Telegram server doesn't let you to have more than 1 account. If you want see this limitation in real world use [Telegraher](https://github.com/nikitasius/Telegraher) (outdated).
+
+## iOS
+### Official
+- API_ID = 8
+- API_HASH = "7245de8e747a0d6fbe11f7cc14fcc0bb"
 
 ## Android
 ### Official
