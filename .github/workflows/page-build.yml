@@ -16,6 +16,12 @@ jobs:
       - uses: actions/cache@v2
         with:
           key: ${{ github.ref }}
-          path: .cache
-      - run: pip install -r requirements.txt
-      - run: mkdocs gh-deploy --force
+          path: |
+            .cache
+            poetry.lock
+      - name: Install Poetry
+        run: pip install poetry
+      - name: Install dependencies
+        run: poetry install
+      - name: Deploy MkDocs
+        run: poetry run mkdocs gh-deploy --force

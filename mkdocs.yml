@@ -13,7 +13,9 @@ nav:
       - posts/whatsapp-api.md
       - posts/custom-telegram-client-api-credits.md
       - posts/transcribe-trial-reset.md
-    - Personal:
+#    - Personal:
+
+    - Draft:
       - posts/my-experience-of-taking-medications.md
   - About: about.md
 
@@ -54,9 +56,15 @@ plugins:
   - redirects:
       redirect_maps:
         'about.md': 'https://github.com/ZhymabekRoman'
+  - obsidian-bridge
+
+markdown_extensions:
+  - footnotes
+  - admonition
 
 extra_css:
 - css/custom.css
+- css/custom-headers.css
 
 extra_javascript:
 - javascripts/yandex_metrika.js
