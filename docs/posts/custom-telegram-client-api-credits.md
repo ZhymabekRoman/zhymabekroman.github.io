@@ -8,13 +8,13 @@ tags: telegram android
 hide: [toc]
 ---
 
-There are Telegram Custom Clients API crenetials.
-
-<!--more-->
+There are Telegram Custom Clients API credentials.
 
 Disclaimer 1: I don't own any of them. These credentials are for educational purposes only and taken from open sources.
 
-Disclaimer 2: You can't just copy and paste official client credentials into custom builded client. Telegram server doesn't let you to have more than 1 account. If you want see this limitation in real world use [Telegraher](https://github.com/nikitasius/Telegraher) (outdated).
+Disclaimer 2: You can't just copy and paste official client credentials into custom bundled client. Telegram server doesn't let you to have more than 1 account. If you want see this limitation in real world use [Telegraher](https://github.com/nikitasius/Telegraher) (outdated).
+
+<!--more-->
 
 ## iOS
 ### Official

@@ -2,3 +2,4 @@ mkdocs==1.4.2
 mkdocs-material==9.1.8
 mkdocs-material-extensions==1.1.1
 mkdocs-redirects==1.2.1
+mkdocs_obsidian_bridge==1.1.1
