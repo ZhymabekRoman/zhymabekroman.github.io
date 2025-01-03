@@ -1,0 +1,106 @@
+.collapse-indicator svg.svg-icon {
+    width: 0.5em;
+    height: 0.5em;
+    color: #8c5ba3;
+}
+
+h1 {
+    font-size: 1.2em;
+    color: #8c5ba3;
+    border-left: 5px solid #8c5ba3;
+    padding-top: 0.5em;
+    padding-left: 0.5em;
+}
+
+h2 {
+    font-size: 1.1em;
+    color: #2e8cb8;
+    margin-top: 0.5em !important;
+    margin-bottom: 0.5em !important;
+    border-left: 5px solid #2e8cb8;
+    padding-top: 0.5em;
+    padding-left: 0.5em;
+}
+
+h3 {
+    font-size: 1em;
+    color: #8375fb;
+    margin-top: 0.5em !important;
+    margin-bottom: 0.5em !important;
+    border-left: 5px solid #8375fb;
+    padding-top: 0.5em;
+    padding-left: 0.5em;
+}
+
+h4 {
+    font-size: 1em;
+    color: #028760;
+    margin-top: 0.5em !important;
+    margin-bottom: 0.5em !important;
+    border-left: 5px solid #028760;
+    padding-top: 0.5em;
+    padding-left: 0.5em;
+}
+
+h5 {
+    font-size: 0.9em;
+    color: #ff7500;
+    margin-top: 0.5em !important;
+    margin-bottom: 0.5em !important;
+    border-left: 5px solid #ff7500;
+    padding-top: 0.5em;
+    padding-left: 0.5em;
+}
+
+h6 {
+    font-size: 0.8em;
+    color: #8d6449;
+    margin-top: 0.5em !important;
+    margin-bottom: 0.5em !important;
+    border-left: 5px solid #8d6449;
+    padding-left: 0.5em;
+}
+
+blockquote {
+    background-color: #e6e6fa;
+    border-left: 5px solid #8c5ba3;
+    color: #8c5ba3;
+}
+
+ol li::marker {
+    color: #8c5ba3;
+}
+
+.indent:before {
+    border-right: 2.5px solid #8c5ba3;
+}
+
+.better-bullets .list-bullet:after {
+    background-color: #8c5ba3;
+    width: 0.25em;
+    height: 0.25em;
+}
+
+.hashtag {
+    font-size: 0.9em;
+    color: #8c5ba3;
+    background-color: #e6e6fa;
+}
+
+strong {
+    color: #801dae;
+}
+
+em {
+    font-weight: bold;
+    color: #e95295;
+}
+
+a {
+    text-decoration: none !important;
+}
+
+a:hover {
+    color: red !important;
+    text-decoration: none !important;
+}
