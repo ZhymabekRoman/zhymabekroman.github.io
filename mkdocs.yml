@@ -6,13 +6,15 @@ repo_name: "ZhymabekRoman.github.io"
 nav:
   - Home: index.md
   - Posts:
-    - 2023:
+    - Tech Tools:
       - posts/must-have-applications.md
       - posts/must-have-browser-extensions.md
+    - Development & APIs:
+      - posts/whatsapp-api.md
       - posts/custom-telegram-client-api-credits.md
       - posts/transcribe-trial-reset.md
-    - 2024:
-      - posts/whatsapp-api.md
+    - Personal:
+      - posts/my-experience-of-taking-medications.md
   - About: about.md
 
 theme:
