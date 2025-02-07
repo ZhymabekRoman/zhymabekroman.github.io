@@ -53,6 +53,7 @@ theme:
       name: Switch to system preference
 
 plugins:
+  - annotations
   - redirects:
       redirect_maps:
         'about.md': 'https://github.com/ZhymabekRoman'

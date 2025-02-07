@@ -2,27 +2,49 @@
 
 [[package]]
 name = "babel"
-version = "2.16.0"
+version = "2.17.0"
 description = "Internationalization utilities"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "babel-2.16.0-py3-none-any.whl", hash = "sha256:368b5b98b37c06b7daf6696391c3240c938b37767d4584413e8438c5c435fa8b"},
-    {file = "babel-2.16.0.tar.gz", hash = "sha256:d1f3554ca26605fe173f3de0c65f750f5a42f924499bf134de6423582298e316"},
+    {file = "babel-2.17.0-py3-none-any.whl", hash = "sha256:4d0b53093fdfb4b21c92b5213dba5a1b23885afa8383709427046b21c366e5f2"},
+    {file = "babel-2.17.0.tar.gz", hash = "sha256:0c54cffb19f690cdcc52a3b50bcbf71e07a808d1c80d549f2459b9d2cf0afb9d"},
 ]
 
 [package.extras]
-dev = ["freezegun (>=1.0,<2.0)", "pytest (>=6.0)", "pytest-cov"]
+dev = ["backports.zoneinfo", "freezegun (>=1.0,<2.0)", "jinja2 (>=3.0)", "pytest (>=6.0)", "pytest-cov", "pytz", "setuptools", "tzdata"]
+
+[[package]]
+name = "beautifulsoup4"
+version = "4.13.3"
+description = "Screen-scraping library"
+optional = false
+python-versions = ">=3.7.0"
+files = [
+    {file = "beautifulsoup4-4.13.3-py3-none-any.whl", hash = "sha256:99045d7d3f08f91f0d656bc9b7efbae189426cd913d830294a15eefa0ea4df16"},
+    {file = "beautifulsoup4-4.13.3.tar.gz", hash = "sha256:1bd32405dacc920b42b83ba01644747ed77456a65760e285fbc47633ceddaf8b"},
+]
+
+[package.dependencies]
+soupsieve = ">1.2"
+typing-extensions = ">=4.0.0"
+
+[package.extras]
+cchardet = ["cchardet"]
+chardet = ["chardet"]
+charset-normalizer = ["charset-normalizer"]
+html5lib = ["html5lib"]
+lxml = ["lxml"]
 
 [[package]]
 name = "certifi"
-version = "2024.12.14"
+version = "2025.1.31"
 description = "Python package for providing Mozilla's CA Bundle."
 optional = false
 python-versions = ">=3.6"
 files = [
-    {file = "certifi-2024.12.14-py3-none-any.whl", hash = "sha256:1275f7a45be9464efc1173084eaa30f866fe2e47d389406136d332ed4967ec56"},
-    {file = "certifi-2024.12.14.tar.gz", hash = "sha256:b650d30f370c2b724812bee08008be0c4163b163ddaec3f2546c1caf65f191db"},
+    {file = "certifi-2025.1.31-py3-none-any.whl", hash = "sha256:ca78db4565a652026a4db2bcdf68f2fb589ea80d0be70e03929ed730746b84fe"},
+    {file = "certifi-2025.1.31.tar.gz", hash = "sha256:3d5da6925056f6f18f119200434a4780a94263f10d1c21d032a6f6b2baa20651"},
 ]
 
 [[package]]
@@ -326,6 +348,26 @@ i18n = ["babel (>=2.9.0)"]
 min-versions = ["babel (==2.9.0)", "click (==7.0)", "colorama (==0.4)", "ghp-import (==1.0)", "importlib-metadata (==4.4)", "jinja2 (==2.11.1)", "markdown (==3.3.6)", "markupsafe (==2.0.1)", "mergedeep (==1.3.4)", "mkdocs-get-deps (==0.2.0)", "packaging (==20.5)", "pathspec (==0.11.1)", "pyyaml (==5.1)", "pyyaml-env-tag (==0.1)", "watchdog (==2.0)"]
 
 [[package]]
+name = "mkdocs-annotations"
+version = "0.1.0"
+description = "MkDocs plugin for inline annotations and popovers"
+optional = false
+python-versions = "*"
+files = []
+develop = false
+
+[package.dependencies]
+beautifulsoup4 = ">=4.9.0"
+mkdocs = ">=1.0.4"
+
+[package.source]
+type = "git"
+url = "https://github.com/ZhymabekRoman/obsidian-enhanced-anotations.git"
+reference = "HEAD"
+resolved_reference = "1ac59a0ad4a94160559f9b912cfcd55a7d1e7e2e"
+subdirectory = "mkdocs-annotations/"
+
+[[package]]
 name = "mkdocs-get-deps"
 version = "0.2.0"
 description = "MkDocs extension that lists all dependencies according to a mkdocs.yml file"
@@ -343,13 +385,13 @@ pyyaml = ">=5.1"
 
 [[package]]
 name = "mkdocs-material"
-version = "9.5.49"
+version = "9.6.3"
 description = "Documentation that simply works"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "mkdocs_material-9.5.49-py3-none-any.whl", hash = "sha256:c3c2d8176b18198435d3a3e119011922f3e11424074645c24019c2dcf08a360e"},
-    {file = "mkdocs_material-9.5.49.tar.gz", hash = "sha256:3671bb282b4f53a1c72e08adbe04d2481a98f85fed392530051f80ff94a9621d"},
+    {file = "mkdocs_material-9.6.3-py3-none-any.whl", hash = "sha256:1125622067e26940806701219303b27c0933e04533560725d97ec26fd16a39cf"},
+    {file = "mkdocs_material-9.6.3.tar.gz", hash = "sha256:c87f7d1c39ce6326da5e10e232aed51bae46252e646755900f4b0fc9192fa832"},
 ]
 
 [package.dependencies]
@@ -366,7 +408,7 @@ regex = ">=2022.4"
 requests = ">=2.26,<3.0"
 
 [package.extras]
-git = ["mkdocs-git-committers-plugin-2 (>=1.1,<2.0)", "mkdocs-git-revision-date-localized-plugin (>=1.2.4,<2.0)"]
+git = ["mkdocs-git-committers-plugin-2 (>=1.1,<3)", "mkdocs-git-revision-date-localized-plugin (>=1.2.4,<2.0)"]
 imaging = ["cairosvg (>=2.6,<3.0)", "pillow (>=10.2,<11.0)"]
 recommended = ["mkdocs-minify-plugin (>=0.7,<1.0)", "mkdocs-redirects (>=1.2,<2.0)", "mkdocs-rss-plugin (>=1.6,<2.0)"]
 
@@ -383,18 +425,19 @@ files = [
 
 [[package]]
 name = "mkdocs-obsidian-bridge"
-version = "1.1.1"
+version = "1.2.0"
 description = "An MkDocs plugin that helps exporting your Obsidian vault as an MkDocs site."
 optional = false
 python-versions = "<4,>=3.10"
 files = [
-    {file = "mkdocs_obsidian_bridge-1.1.1-py3-none-any.whl", hash = "sha256:1c16e45a266e54ae969d5d4dc5457742c991aeafc529878a2598b5a13eb513eb"},
-    {file = "mkdocs_obsidian_bridge-1.1.1.tar.gz", hash = "sha256:9ee0b89c881982a908a18dfc3108d4a8e225c1fc22776052ce4ad2efd17b14f2"},
+    {file = "mkdocs_obsidian_bridge-1.2.0-py3-none-any.whl", hash = "sha256:8f42b6d58f0731d5f85dbbe36590cdcb7e413b6f160a7b08f38a30ad2ec5b871"},
+    {file = "mkdocs_obsidian_bridge-1.2.0.tar.gz", hash = "sha256:67b60e0178c4109f946e8b54c753f76f6ecad68b4756473fff28ec9873bc3cd3"},
 ]
 
 [package.dependencies]
 markdown = ">=3.2.1"
 mkdocs = ">=1.4.2"
+obsidian-callouts = ">=1.0.0"
 obsidian-media = ">=2.0.0"
 
 [[package]]
@@ -410,6 +453,20 @@ files = [
 
 [package.dependencies]
 mkdocs = ">=1.1.1"
+
+[[package]]
+name = "obsidian-callouts"
+version = "1.0.1"
+description = "A Python-Markdown plugin for Obsidian-style callouts."
+optional = false
+python-versions = ">=3.10"
+files = [
+    {file = "obsidian_callouts-1.0.1-py3-none-any.whl", hash = "sha256:a373e8be931c2cf574990f57061db5f724755f27aeb3aac23eb7436fde7f819b"},
+    {file = "obsidian_callouts-1.0.1.tar.gz", hash = "sha256:4ed5ddb9dbdd2340d845cd5efd412fbfe9011ccd7c2040b27f62d0998b0cef1d"},
+]
+
+[package.dependencies]
+markdown = ">=3.7"
 
 [[package]]
 name = "obsidian-media"
@@ -480,13 +537,13 @@ type = ["mypy (>=1.11.2)"]
 
 [[package]]
 name = "pygments"
-version = "2.18.0"
+version = "2.19.1"
 description = "Pygments is a syntax highlighting package written in Python."
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "pygments-2.18.0-py3-none-any.whl", hash = "sha256:b8e6aca0523f3ab76fee51799c488e38782ac06eafcf95e7ba832985c8e7b13a"},
-    {file = "pygments-2.18.0.tar.gz", hash = "sha256:786ff802f32e91311bff3889f6e9a86e81505fe99f2735bb6d60ae0c5004f199"},
+    {file = "pygments-2.19.1-py3-none-any.whl", hash = "sha256:9ea1544ad55cecf4b8242fab6dd35a93bbce657034b0611ee383099054ab6d8c"},
+    {file = "pygments-2.19.1.tar.gz", hash = "sha256:61c16d2a8576dc0649d9f39e089b5f02bcd27fba10d8fb4dcc28173f7a45151f"},
 ]
 
 [package.extras]
@@ -494,13 +551,13 @@ windows-terminal = ["colorama (>=0.4.6)"]
 
 [[package]]
 name = "pymdown-extensions"
-version = "10.13"
+version = "10.14.3"
 description = "Extension pack for Python Markdown."
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "pymdown_extensions-10.13-py3-none-any.whl", hash = "sha256:80bc33d715eec68e683e04298946d47d78c7739e79d808203df278ee8ef89428"},
-    {file = "pymdown_extensions-10.13.tar.gz", hash = "sha256:e0b351494dc0d8d14a1f52b39b1499a00ef1566b4ba23dc74f1eba75c736f5dd"},
+    {file = "pymdown_extensions-10.14.3-py3-none-any.whl", hash = "sha256:05e0bee73d64b9c71a4ae17c72abc2f700e8bc8403755a00580b49a4e9f189e9"},
+    {file = "pymdown_extensions-10.14.3.tar.gz", hash = "sha256:41e576ce3f5d650be59e900e4ceff231e0aed2a88cf30acaee41e02f063a061b"},
 ]
 
 [package.dependencies]
@@ -508,7 +565,7 @@ markdown = ">=3.6"
 pyyaml = "*"
 
 [package.extras]
-extra = ["pygments (>=2.12)"]
+extra = ["pygments (>=2.19.1)"]
 
 [[package]]
 name = "python-dateutil"
@@ -736,6 +793,28 @@ files = [
 ]
 
 [[package]]
+name = "soupsieve"
+version = "2.6"
+description = "A modern CSS selector implementation for Beautiful Soup."
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "soupsieve-2.6-py3-none-any.whl", hash = "sha256:e72c4ff06e4fb6e4b5a9f0f55fe6e81514581fca1515028625d0f299c602ccc9"},
+    {file = "soupsieve-2.6.tar.gz", hash = "sha256:e2e68417777af359ec65daac1057404a3c8a5455bb8abc36f1a9866ab1a51abb"},
+]
+
+[[package]]
+name = "typing-extensions"
+version = "4.12.2"
+description = "Backported and Experimental Type Hints for Python 3.8+"
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "typing_extensions-4.12.2-py3-none-any.whl", hash = "sha256:04e5ca0351e0f3f85c6853954072df659d0d13fac324d0072316b67d7794700d"},
+    {file = "typing_extensions-4.12.2.tar.gz", hash = "sha256:1a7ead55c7e559dd4dee8856e3a88b41225abfe1ce8df57b7c13915fe121ffb8"},
+]
+
+[[package]]
 name = "urllib3"
 version = "2.3.0"
 description = "HTTP library with thread-safe connection pooling, file post, and more."
@@ -797,4 +876,4 @@ watchmedo = ["PyYAML (>=3.10)"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.13"
-content-hash = "7bb9bb774d85e89264c90157e2e149a802ef7cda719956f1a18f09320fbe6f7a"
+content-hash = "5940416e642c9b22231743611c50b22d78ccbb07f8ca0855a3cc94876eff714e"
