@@ -85,6 +85,9 @@ Source - [Lamotrigine, quetiapine and folic acid for bipolar depression](https:/
 (lion mane effects - https://www.reddit.com/r/LionsManeRecovery/comments/1i3q38i/low_motivation_anhedonia/)
 
 (add about grapefruit Brintellix overdosing)
+(add about expirience of spliting tablets into a half. other people expirience: https://www.reddit.com/r/trintellix/s/Ag3GJPacPb)
+(Most SSRI and SNRI (like cymbalta) will cause some form of tremor in long term use: https://www.reddit.com/r/EssentialTremor/comments/11qhpdt/comment/jc3fw7p/?utm_source=share&utm_medium=mweb3x&utm_name=mweb3xcss&utm_term=1&utm_content=share_button)
+()
 
 
 Also do not forget to hydrate. From personal expirience it's just helps me stabilize my mood.
