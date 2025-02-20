@@ -14,6 +14,7 @@ mkdocs-material-extensions = "^1.3.1"
 mkdocs-redirects = "^1.2.2"
 mkdocs-obsidian-bridge = "^1.1.1"
 mkdocs-annotations = {git = "https://github.com/ZhymabekRoman/obsidian-enhanced-anotations.git", subdirectory = "mkdocs-annotations/"}
+mkdocs-rss-plugin = "^1.17.1"
 
 
 [build-system]
