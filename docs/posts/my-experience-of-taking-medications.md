@@ -92,6 +92,8 @@ Source - [Lamotrigine, quetiapine and folic acid for bipolar depression](https:/
 
 Also do not forget to hydrate. From personal expirience it's just helps me stabilize my mood.
 
+https://www.askapatient.com/viewrating.asp?drug=204447&name=TRINTELLIX
+
 ---
 
 # Antidepressants (SSRI, SNRI, multimodal)
