@@ -8,6 +8,7 @@ tags: spam kazakhstan
 hide: [toc]
 ---
 
+```
 Received: from postback9b.mail.yandex.net (postback9b.mail.yandex.net [2a02:6b8:c02:900:1:45:d181:da09])
 by mail-notsolitesrv-production-main-91.iva.yp-c.yandex.net (notsolitesrv/Yandex) with LMTPS id ZubeIk0OtUKF-wn4wgy0f;
 Wed, 12 Mar 2025 15:46:11 +0300
@@ -70,3 +71,4 @@ VICE CHAIRMAN HARRISBURG,
 (Operations,Maintenance,Transportation)
 Harrisburg International Airport Pennsylvania
 One Terminal Drive, Middle town.
+```
