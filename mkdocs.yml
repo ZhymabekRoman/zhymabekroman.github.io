@@ -7,58 +7,59 @@ repo_name: "ZhymabekRoman.github.io"
 nav:
   - Home: index.md
   - Posts:
-    - Tech Tools:
-      - posts/must-have-applications.md
-      - posts/must-have-browser-extensions.md
-    - Development & APIs:
-      - posts/whatsapp-api.md
-      - posts/custom-telegram-client-api-credits.md
-      - posts/transcribe-trial-reset.md
-#    - Personal:
+      - Tech Tools:
+          - posts/must-have-applications.md
+          - posts/must-have-browser-extensions.md
+      - Development & APIs:
+          - posts/whatsapp-api.md
+          - posts/custom-telegram-client-api-credits.md
+          - posts/transcribe-trial-reset.md
+      - Security/Pentest:
+          - posts/message-from-sts.gov.kz.md
 
-    - Draft:
-      - posts/my-experience-of-taking-medications.md
+      - Draft:
+          - posts/my-experience-of-taking-medications.md
   - About: about.md
 
 theme:
-  name: 'material'
+  name: "material"
   custom_dir: docs/templates
   features:
-  - announce.dismiss
-  - content.action.edit
-  - content.action.view
-  - content.code.annotate
-  - content.code.copy
-  - content.tooltips
-  - navigation.footer
-  - navigation.indexes
-  - navigation.sections
-  - navigation.tabs
-  - navigation.tabs.sticky
-  - navigation.top
-  - search.highlight
-  - search.suggest
-  - toc.follow
+    - announce.dismiss
+    - content.action.edit
+    - content.action.view
+    - content.code.annotate
+    - content.code.copy
+    - content.tooltips
+    - navigation.footer
+    - navigation.indexes
+    - navigation.sections
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.top
+    - search.highlight
+    - search.suggest
+    - toc.follow
   palette:
-  - scheme: slate
-    primary: black
-    accent: violet
-    toggle:
-      icon: material/weather-sunny
-      name: Switch to dark mode
-  - scheme: default
-    primary: violet
-    accent: black
-    toggle:
-      icon: material/weather-night
-      name: Switch to system preference
+    - scheme: slate
+      primary: black
+      accent: violet
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to dark mode
+    - scheme: default
+      primary: violet
+      accent: black
+      toggle:
+        icon: material/weather-night
+        name: Switch to system preference
 
 plugins:
   - rss
   - annotations
   - redirects:
       redirect_maps:
-        'about.md': 'https://github.com/ZhymabekRoman'
+        "about.md": "https://github.com/ZhymabekRoman"
   - obsidian-bridge
 
 markdown_extensions:
@@ -66,8 +67,8 @@ markdown_extensions:
   - admonition
 
 extra_css:
-- css/custom.css
-- css/custom-headers.css
+  - css/custom.css
+  - css/custom-headers.css
 
 extra_javascript:
-- javascripts/yandex_metrika.js
+  - javascripts/yandex_metrika.js
