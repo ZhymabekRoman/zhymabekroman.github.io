@@ -8,10 +8,9 @@ tags: ui
 hide: [toc]
 ---
 
-
 # Good
 ## Form action button still active when user doesn't select all fields
-$\quad$Very cool design logic in Github.com repository creating page. I didn't select owner, and after clicking "Create repository" it's shows me warning under owner input "Please select an owner". Most services probably would just make button disabled, until inner form validation logic wouldn't pass requirements.
+Very cool design logic in Github.com repository creating page. I didn't select owner, and after clicking "Create repository" it's shows me warning under owner input "Please select an owner". Most services probably would just make button disabled, until inner form validation logic wouldn't pass requirements.
 
 As alternative I would suggest to hide all other junk stuff below description, and after selection owner and repository name it would just pop up under
 
