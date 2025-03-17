@@ -10,13 +10,13 @@ nav:
       - Tech Tools:
           - posts/must-have-applications.md
           - posts/must-have-browser-extensions.md
-      - Development & APIs:
+      - Development & Design:
           - posts/whatsapp-api.md
           - posts/custom-telegram-client-api-credits.md
           - posts/transcribe-trial-reset.md
+          - posts/ui-design_the-bad-and-the-good.md
       - Security/Pentest:
           - posts/message-from-sts.gov.kz.md
-
       - Draft:
           - posts/my-experience-of-taking-medications.md
   - About: about.md
