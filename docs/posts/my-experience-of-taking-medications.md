@@ -7,15 +7,15 @@ authors:
 tags: medications brintelix, lamotrigine, ferzapine
 hide: [toc]
 ---
-TW: suicide
-
-> [!danger] 
-> 
-> Everyone is different! You may have different drug interaction, so please do not take my own experience seriously. In order to compensate this I would add my personal findings, with sources, so you would able to critically analyze results and make some conclusions by yourself. Be safe.
-
-> [!danger] Disclaimer: **I'M NOT A DOCTOR**,  I'm just trying to save some of you some of the confusion / frustration I've experienced.[Reddit](https://www.reddit.com/r/lamictal/comments/ryl8j0/lamictal_folic_acid_tylenol/)
-
+...
 <!--more-->
+
+> [!danger] DANGER
+> > [!danger] everyone is different
+> > Everyone is different! You may have different drug interaction, so please do not take my own experience seriously. In order to compensate this I would add my personal findings, with sources, so you would able to critically analyze results and make some conclusions by yourself. Be safe.
+> 
+> > [!danger] not doctor
+> > **I'M NOT A DOCTOR**,  I'm just trying to save some of you some of the confusion / frustration I've experienced. [Reddit](https://www.reddit.com/r/lamictal/comments/ryl8j0/lamictal_folic_acid_tylenol/)
 
 > [!note] My life mess in few sentences
 > 
@@ -158,7 +158,7 @@ nasal spray for treatment-resistant depression and with suicidal thoughts or act
 - [An Ingredient in Cough Syrup Could Work as an Antidepressant](https://www.vice.com/en/article/dxm-cough-syrup-antidepressant-ketamine/)
 
 ### Auvelity (Dextromethorphan/bupropion)
-$\quad$Антидепресант ногового поколения. Предназначен для борьбы с большой депрессией. Approved only in US by FDA.
+Антидепресант ногового поколения. Предназначен для борьбы с большой депрессией. Approved only in US by FDA.
 Manual replication in homemade possible situation: [Декстрометорфан (DXM) + Бупропион (Auvelity) - Страница 2 - Антидепрессанты](https://neuroleptic.ru/forum/topic/21107-%D0%B4%D0%B5%D0%BA%D1%81%D1%82%D1%80%D0%BE%D0%BC%D0%B5%D1%82%D0%BE%D1%80%D1%84%D0%B0%D0%BD-dxm-%D0%B1%D1%83%D0%BF%D1%80%D0%BE%D0%BF%D0%B8%D0%BE%D0%BD-auvelity/page-2)
 
 ## Фолиевая кислота в качестве дополнительной терапии к СИОЗС/СИОЗСН при большом депрессивном расстройстве

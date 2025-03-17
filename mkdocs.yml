@@ -65,6 +65,7 @@ plugins:
 markdown_extensions:
   - footnotes
   - admonition
+  - obsidian_callouts
 
 extra_css:
   - css/custom.css
