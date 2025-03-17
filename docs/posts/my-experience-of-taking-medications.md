@@ -13,6 +13,8 @@ TW: suicide
 > 
 > Everyone is different! You may have different drug interaction, so please do not take my own experience seriously. In order to compensate this I would add my personal findings, with sources, so you would able to critically analyze results and make some conclusions by yourself. Be safe.
 
+> [!danger] Disclaimer: **I'M NOT A DOCTOR**,  I'm just trying to save some of you some of the confusion / frustration I've experienced.[Reddit](https://www.reddit.com/r/lamictal/comments/ryl8j0/lamictal_folic_acid_tylenol/)
+
 <!--more-->
 
 > [!note] My life mess in few sentences
@@ -27,7 +29,7 @@ TW: suicide
 > 
 > So I'm here, where we're going to talk about my journey.
 
-# Personal experience
+## Personal experience
 I'm (21M) taking 20mg of Brintellix since September 2024, the beginning of my treatment. This is my first medication for my mixed chronic anxiety-depressive disorder (MADD), which has been present throughout my conscious life. I'm now in approximately the third month of treatment. Apart from some initial nausea during the first few days and drowsiness in the first hour after taking the medication, I've been feeling generally stable and fine. My social anxiety has decreased, and I've become more able to interact with people without excessive overthinking. The only issue I'm experienced is difficulty concentrating on tasks at work. As a programmer, concentration is crucial for my professional performance.
 
 After discussing my concentration problems with my psychiatrist, she prescribed 50mg Lamictal as an additional therapy to be taken alongside Brintellix. That really helpd me to just sit down and focus at something one. After some digging I thought maybe increasing to 100mg is going to be good idea. After that I increased up to 150-200mg. Some day passed and I start to notice some cognitive problem, like memory recalling issues. so I was very scared. Some [[stydies and sources]{#pop-antibipolar-cognititive-decline}] says that Anticonvulsant mood stabilizers medicine could cause cognitive impairment. But other sources says that it's [[actually can improve or doesn't has side effect]{#pop-antibipolar-cognititive-improve}]
