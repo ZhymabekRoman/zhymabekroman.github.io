@@ -89,6 +89,7 @@ Source - [Lamotrigine, quetiapine and folic acid for bipolar depression](https:/
 (Most SSRI and SNRI (like cymbalta) will cause some form of tremor in long term use: https://www.reddit.com/r/EssentialTremor/comments/11qhpdt/comment/jc3fw7p/?utm_source=share&utm_medium=mweb3x&utm_name=mweb3xcss&utm_term=1&utm_content=share_button)
 ()
 
+(add about ketosis - [YouTube](www.youtube.com/shorts/jMfbK8m7ojo))
 
 Also do not forget to hydrate. From personal expirience it's just helps me stabilize my mood.
 
