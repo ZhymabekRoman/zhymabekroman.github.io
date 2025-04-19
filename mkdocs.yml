@@ -17,6 +17,8 @@ nav:
           - posts/ui-design_the-bad-and-the-good.md
       - Security/Pentest:
           - posts/message-from-sts.gov.kz.md
+          - posts/email-dating-relationship-scam.md
+          - posts/finding-a-scammer.md
       - Draft:
           - posts/my-experience-of-taking-medications.md
   - About: about.md
