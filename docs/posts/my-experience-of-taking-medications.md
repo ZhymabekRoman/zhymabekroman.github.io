@@ -100,7 +100,7 @@ https://www.askapatient.com/viewrating.asp?drug=204447&name=TRINTELLIX
 ---
 
 # Antidepressants (SSRI, SNRI, multimodal)
-(about info that antidepressant may increase suicidal thoughts)
+Antidepressants increased the risk of suicidal thoughts and behavior in children, adolescents, and young adults in short-term studies - [source](https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=6b28c424-0b7e-4b75-b090-f116b113554e). 
 
 ## Vortioxetine (Brintellix, Trintellix, Fonksera)
 Multimodal antidepressant, that 

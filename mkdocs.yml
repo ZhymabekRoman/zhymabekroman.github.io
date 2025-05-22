@@ -7,7 +7,8 @@ repo_name: "ZhymabekRoman.github.io"
 nav:
   - Home: index.md
   - Posts:
-      - Tech Tools:
+      - Tech:
+          - posts/my-portable-pc-build.md
           - posts/must-have-applications.md
           - posts/must-have-browser-extensions.md
       - Development & Design:
