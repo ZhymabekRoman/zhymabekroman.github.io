@@ -19,4 +19,4 @@ hide: [toc]
 - [M.2 NVMe to U.2/U.3/E1.S/E3.S SSD Extension Cable](https://www.adt.link/product/F47V4.html) - 28$ (~12 300 KZT) - to connect Intel Optane with E1.S enterprise connector to PCIe.
 - Display - 13.3 inches 1080P 2.5K - $62 (AliExpress)
 - Trackball - Kensington Orbit, Wireless - $62 (AliExpress)
-- Keyboard - Rapoo V500 Alloy - ~$20 (10,000 KZT). I got the cheapest mechanical keyboard available in my local stores.
+- %% Keyboard - Rapoo V500 Alloy - ~$20 (10,000 KZT). I got the cheapest mechanical keyboard available in my local stores. %%
