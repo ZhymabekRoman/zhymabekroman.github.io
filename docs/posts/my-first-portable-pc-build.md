@@ -1,13 +1,15 @@
 ---
 template: post.html
-title: "My portable PC build"
+title: My first portable PC build
 date: 2025-05-22
 authors:
   - Zhymabek Roman
 tags: pc linux
-hide: [toc]
+hide:
+  - toc
 ---
 ## My Build
+* Case: DeepCool CH160
 - OS: EndeavourOS (GNU Arch Linux) with KDE 6 - free. Why Linux: 1) I use Linux because I love Linux, 2) I'm a developer, so using Linux is more preferable.
 - CPU: AMD Ryzen 7 7700 - $200 (AliExpress). I had different options like first 7500, then "I need a CPU with GPU just in case", so I considered 7600, then I thought "let's get maximum power", so I looked at 7800x3d, but after reading that the x3d built-in cache is very overpriced and you would get the full benefit mostly from games, I changed my mind to 7700x, because I don't play games much. One day, I randomly found a deal in a Telegram channel dedicated to cheap AliExpress items, and I thought, "Okay, it's not the 7700x version, but overall fine". After watching a video from LTT that essentially explained x-versions are expensive for their performance boost compared to non-x versions, I got this deal.
 - GPU: Asus RTX 3060 Phoenix - $220 (bought second-hand, totally brand new, with sealed package). I'm not a gamer, although I play CS2, Undertale, and Call of Duty WW2. This GPU from Asus is perfect for SFF cases like DeepCool. It has only one fan and a short width compared to standard GPU form factors.
@@ -19,4 +21,4 @@ hide: [toc]
 - [M.2 NVMe to U.2/U.3/E1.S/E3.S SSD Extension Cable](https://www.adt.link/product/F47V4.html) - 28$ (~12 300 KZT) - to connect Intel Optane with E1.S enterprise connector to PCIe.
 - Display - 13.3 inches 1080P 2.5K - $62 (AliExpress)
 - Trackball - Kensington Orbit, Wireless - $62 (AliExpress)
-- %% Keyboard - Rapoo V500 Alloy - ~$20 (10,000 KZT). I got the cheapest mechanical keyboard available in my local stores. %%
+- Keyboard - Rapoo V500 Alloy - ~$20 (10,000 KZT). I got the cheapest mechanical keyboard available in my local stores.

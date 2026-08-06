@@ -34,11 +34,11 @@ I'm (21M) taking 20mg of Brintellix since September 2024, the beginning of my tr
 
 After discussing my concentration problems with my psychiatrist, she prescribed 50mg Lamictal as an additional therapy to be taken alongside Brintellix. That really helpd me to just sit down and focus at something one. After some digging I thought maybe increasing to 100mg is going to be good idea. After that I increased up to 150-200mg. Some day passed and I start to notice some cognitive problem, like memory recalling issues. so I was very scared. Some [[stydies and sources]{#pop-antibipolar-cognititive-decline}] says that Anticonvulsant mood stabilizers medicine could cause cognitive impairment. But other sources says that it's [[actually can improve or doesn't has side effect]{#pop-antibipolar-cognititive-improve}]
 
-After time I tried to taper off from Lamothrigine, by just taking 50mg, but next morning I got compulsive thoughts, and the are all mostly negative situatuins, mos of them arem't finished things, relationships and etc. So yeah, I immediately got back to 150mg. Cognitivie problem still hitting me. After some consideration I got a theoery - maybe that's from a bad sleep? Because I had before taking any medication really bad problem sleeping, after taking it it's worsen.
+After time I tried to taper off from Lamothrigine, by just taking 50mg, but next morning I got compulsive thoughts, and the are all mostly negative situatuins, most of them where situations and things, related to relationships and etc. So yeah, I immediately got back to 150mg. Cognitivie problem still hitting me. After some consideration I got a theoery - maybe that's from a bad sleep? Because I had before taking any medication really bad problem sleeping, after taking it it's worsen.
 
 Psychiatrist prescribed me for that Phenazepam. For non post Soviet union peoples that medicine says probably nothing, because I couldn't find much evidence of usage in Reddit, so alternative medications are Clonezepam and Lorezepam for the rest of the world. In nutshell it was first developed benzodiazepine medicine in the USSR. Btw All benzodiazepine medicines has one major side effects, it's long term medicine addiction. 
 
-After taking Phenazepam, my sleep really improved. And alngwith ogition and memory! So my theory that bad sleep can cause cognitive problem is get confirm. But actually I was asking myself why it's affecting so aggresevly? I didn't had it before. So I came across [[this Reddit comment]{#pop-lamothrigine-sleep}], with confirms that sleep and Lamthrogine has very tight connection with cognition. If you have a depression you suppose to get full rest from sleep, but by taking Lamotrigine be extra carefull about your sleep habit
+After taking Phenazepam, my sleep really improved. And alnogwith cognition and memory! So my theory that bad sleep can cause cognitive problem is get confirm. But actually I was asking myself why it's affecting so aggressively? I didn't had it before. So I came across [[this Reddit comment]{#pop-lamothrigine-sleep}], with confirms that sleep and Lamthrogine has very tight connection with cognition. If you have a depression you suppose to get full rest from sleep, but by taking Lamotrigine be extra carefull about your sleep habit
 
 
 <div id="pop-lamothrigine-sleep">
@@ -86,24 +86,22 @@ Source - [Lamotrigine, quetiapine and folic acid for bipolar depression](https:/
 
 (lion mane effects - https://www.reddit.com/r/LionsManeRecovery/comments/1i3q38i/low_motivation_anhedonia/)
 
-(add about grapefruit Brintellix overdosing)
-(add about expirience of spliting tablets into a half. other people expirience: https://www.reddit.com/r/trintellix/s/Ag3GJPacPb)
-(Most SSRI and SNRI (like cymbalta) will cause some form of tremor in long term use: https://www.reddit.com/r/EssentialTremor/comments/11qhpdt/comment/jc3fw7p/?utm_source=share&utm_medium=mweb3x&utm_name=mweb3xcss&utm_term=1&utm_content=share_button)
-()
-
 (add about ketosis - [YouTube](www.youtube.com/shorts/jMfbK8m7ojo))
-
-Also do not forget to hydrate. From personal expirience it's just helps me stabilize my mood.
-
-https://www.askapatient.com/viewrating.asp?drug=204447&name=TRINTELLIX
 
 ---
 
 # Antidepressants (SSRI, SNRI, multimodal)
 Antidepressants increased the risk of suicidal thoughts and behavior in children, adolescents, and young adults in short-term studies - [source](https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=6b28c424-0b7e-4b75-b090-f116b113554e). 
 
+## Side effects that people often just don't talk about
+### Tremor
+- Most SSRI and SNRI will cause some form of tremor in log term use [source](ts/11qhpdt/comment/jc3fw7p/?utm_source=share&utm_medium=mweb3x&utm_name=mweb3xcss&utm_term=1). Approximately 20% of patients started on SSRIs develop tremor without having a previous history of tremor [source](https://pmc.ncbi.nlm.nih.gov/articles/PMC5712675/#:~:text=Selective%20serotonin%20reuptake%20inhibitors&text=While%20numerous%20movement%20disorders%20have,disorder%20induced%20by%20these%20drugs.&text=Approximately%2020%25%20of%20patients%20started,a%20previous%20history%20of%20tremor).
+
 ## Vortioxetine (Brintellix, Trintellix, Fonksera)
-Multimodal antidepressant, that 
+Multimodal antidepressant, that works with different 
+
+- [TRINTELLIX: Side Effects, Reviews by Patients - AskaPatient.com](https://www.askapatient.com/viewrating.asp?drug=204447&name=TRINTELLIX)
+- [A Focus on Vortioxetine - Psychopharmacology | Mechanism of Action | Clinical Application](https://psychscenehub.com/psychinsights/vortioxetine-mechanism-of-action-2/)
 
 ### Why there is so many names? Is that generic of the medication?
 [[Vortioxetine was previously sold under the brand name Brintellix in the United States, but in May 2016, the US Food and Drug Administration (FDA) approved a name change to Trintellix in order to avoid confusion with the blood-thinning medication Brilinta (ticagrelor). Other brand names include Torvox, Vantaxa, Voxigain, and Trivoxetin. In Europe, the name was changed from Brintellix to Fonksera, so vortioxetine can be called Brintellix, Trintellix, and Fonksera, depending on where you are.]{#pop-trintellix-generic-naming}]
@@ -123,8 +121,31 @@ Source: https://www.israelpharm.com/blog/what-kind-of-antidepressant-is-trintell
 
 - **PSSD - Post-SSRI sexual disorder**: maybe common adverse effect of antidepressants.
 
+### Lamictal and Brintellix interaction
+- [Lamictal and vortioxetine Interactions - Drugs.com](https://www.drugs.com/drug-interactions/lamictal-with-vortioxetine-1430-848-3490-0.html)
+
 ### Overdose
 Vortioxetine is metabolized by cytochrome P450 enzymes[^5]. Consuming enzyme-inhibiting medications or foods like Curcumin, Ginger, and [[grapefruit]{See 'Grapefruit and SSRI interaction' section}], may significantly increase medication dosage [^7].
+
+- [Poor man’s vortioxetine | CNS Spectrums | Cambridge Core](https://www.cambridge.org/core/journals/cns-spectrums/article/poor-mans-vortioxetine/300A58531C94D15C6B6474A852656FAD)
+
+There is limited clinical trial experience regarding human overdosage with TRINTELLIX. In premarketing clinical studies, cases of overdose were limited to patients who accidentally or intentionally consumed up to a maximum dose of 40 mg of TRINTELLIX. 
+
+The maximum single dose tested was 75 mg in men. Ingestion of TRINTELLIX in the dose range of 40 to 75 mg was associated with increased rates of:
+  - Nausea
+  - Dizziness
+  - Diarrhea
+  - Abdominal discomfort
+  - Generalized pruritus
+  - Somnolence
+  - Flushing
+
+There have been postmarketing reports of overdoses of TRINTELLIX. The most frequently reported symptoms with overdoses up to 80 mg (four times the maximum recommended daily dose) were nausea and vomiting. 
+
+With overdoses greater than 80 mg, the following have been reported:
+  - A case of serotonin syndrome in combination with another serotonergic drug
+  - A case of seizure
+^[ [source - drugs.com](https://www.drugs.com/pro/trintellix.html) ]
 
 ## Olanzapine (brand name - Zyprexa)
 - [[Olanzapine is an atypical antipsychotic that may be used to treat adults and adolescents aged 13 and older with schizophrenia or bipolar I disorder. For bipolar I disorder, it may be used:
@@ -133,13 +154,33 @@ Vortioxetine is metabolized by cytochrome P450 enzymes[^5]. Consuming enzyme-inh
 
 - Olanzapine is marketed in a fixed-dose combination with fluoxetine as olanzapine/fluoxetine (Symbyax), which was approved by the US FDA for the treatment of depressive episodes of bipolar I disorder in 2003 and for treatment-resistant depression in 2009[^9][^10]. ]{}]
 
-# Mood stabilizers:
+# Mood stabilizers - natural and synthetic:
 ## Lithium
 - [Lithium For Treatment-Resistant Depression: An Effective Augmentation Strategy](https://mentalhealthdaily.com/2014/03/14/lithium-for-treatment-resistant-depression-an-effective-augmentation-strategy/)
+
+---
+Full article to read: [Lithium For Treatment-Resistant Depression: An Effective Augmentation Strategy](https://mentalhealthdaily.com/2014/03/14/lithium-for-treatment-resistant-depression-an-effective-augmentation-strategy/)
+
+Lithium isn’t used in cases of standard depression because it doesn’t generally have antidepressant properties as a standalone treatment. It is a mood stabilizer, and thus is heavily utilized to help keep people stable. In cases of bipolar disorder, this treatment is extremely beneficial for preventing manic mood swings. [source](https://mentalhealthdaily.com/2014/03/14/lithium-for-treatment-resistant-depression-an-effective-augmentation-strategy/)
+
+In cases of depression involving chronic irritability, low dose lithium can be tremendously beneficial [source](https://www.psychiatryredefined.org/lithium-and-depression/).
+
+Lithium carbonate is a naturally occurring element that has been found to act as a mood stabilizer. Due to the mood stabilizing properties that Lithium provides, it is considered a first line of treatment for cases of Bipolar disorder. However, if you have treatment-resistant depression, your psychiatrist or doctor may consider adding Lithium to your treatment regimen. This is due to the fact that the combination of Lithium and an antidepressant is considered a “first line” of treatment for resistant depression [source](https://mentalhealthdaily.com/2014/03/14/lithium-for-treatment-resistant-depression-an-effective-augmentation-strategy/).
+
+Another reason that Lithium is generally avoided is because 75% of people who take it have side effects. [source](https://mentalhealthdaily.com/2014/03/14/lithium-for-treatment-resistant-depression-an-effective-augmentation-strategy/)
+
+## Caffeine
+- [Caffeine enhances the antidepressant-like activity of common antidepressant drugs in the forced swim test in mice](https://pmc.ncbi.nlm.nih.gov/articles/PMC4715838/)
+## Ashwagandha
+Ashwagandha might increase depression, anxiety, and other sort of mental illness [source - Reddit.com](https://www.reddit.com/r/ASHWAGANDHA/comments/15u9vbn/taking_ashwagandha_for_depression_a_cautionary/). But `They found that participants who took 1,000 mg of ashwagandha extract daily for 12 weeks had greater reductions in depression and anxiety than those who took a placebo.` ^[source](https://www.healthline.com/nutrition/ashwagandha)
+## Orange
+- [Impact of citrus fruit intake on the mental health of patients with chronic heart failure - PubMed](https://pubmed.ncbi.nlm.nih.gov/34955372/)
+## Inositol
+- Research suggests that people with depression, anxiety, and bipolar disorder may have lower levels of inositol in the brain, and cerebrospinal fluid inositol has been reported as decreased in depression. [source 1](https://pubmed.ncbi.nlm.nih.gov/7726322/), [source 2](https://pubmed.ncbi.nlm.nih.gov/24424706/), [source 3](https://pubmed.ncbi.nlm.nih.gov/9169302/). Inositol mentioned as being effective for a notable decrease in anxiety symptoms was 18 grams taken for a full month. [source](https://www.youtube.com/watch?v=tpntW9Tte4M). Double blind trials shows that 12 gram taken for 28 days shows overall improvements in depression rating scale [source](https://pubmed.ncbi.nlm.nih.gov/9169302/#:~:text=A%20double%2Dblind%20controlled%20trial%20of%2012%20g%20daily%20of%20inositol%20in%2028%20depressed%20patients%20for%20four%20weeks%20was%20performed.)
 ## Lamictal
 - One has to be extra careful when starting Lamictal and adjusting the dose. It’s essential to follow the instructions and **make sure not to miss the dose of the medication** as that can be very detrimental to the treatment and can cause serious side effects, including having a seizure. [source](https://www.talkspace.com/blog/lamictal/)
 - Lamictal is an FDA-approved medication used to treat seizure disorders like epilepsy along with mood disorders such as bipolar. It’s also used off-label — meaning the FDA hasn’t approved it but may effectively treat — **unipolar depression** (also known as a **major depressive episode**). [source](https://www.talkspace.com/blog/lamictal/)
--  Some recent research shows that Lamictal might be a good option for people with **persistent depressive disorder (PDD)** — also known as dysthymic disorder — when other antidepressants or forms of treatment haven’t helped. Other studies suggest Lamictal can significantly improve treatment-resistant unipolar depression.
+- Some recent research shows that Lamictal might be a good option for people with **persistent depressive disorder (PDD)** — also known as dysthymic disorder — when other antidepressants or forms of treatment haven’t helped. Other studies suggest Lamictal can significantly improve treatment-resistant unipolar depression.
   [source](https://www.talkspace.com/blog/lamictal/)
   - While it’s not FDA-approved for anxiety treatment, in one study, Lamictal showed promising results in reducing stress and symptoms of chronic anxiety. More research is needed, but a Lamictal or Lamotrigine dose might be an effective off-label anxiety treatment option for some people. [source](https://www.talkspace.com/blog/lamictal/)
   -  A secondary analysis suggested that folic acid administration might dampen lamotrigine's antidepressant effect. The researchers concluded that the combination of lamotrigine and folate should be avoided, and cautioned about the potential effect of widespread folic acid fortification on lamotrigine's efficacy. [source](https://www.thelancet.com/journals/lanpsy/article/PIIS2215-0366%2816%2930167-5/fulltext)
@@ -149,21 +190,37 @@ Vortioxetine is metabolized by cytochrome P450 enzymes[^5]. Consuming enzyme-inh
 # Grapefruit and SSRI interaction
 - [Grapefruit juice can affect how well some medicines work](https://www.fda.gov/consumers/consumer-updates/grapefruit-juice-and-some-drugs-dont-mix)
 
+> [!error] Grapefruit and SSRi
+> Never ever use Grapefruit Juice with SSRi. Grapefruit juice is an inhibitor of the cytochrome P-450 enzymes. These enzymes are known to metabolize (break down) (SSRI) antidepressants in the liver. Drinking grapefruit juice whilst you are taking an (SSRI) antidepressant can create a serious toxic reaction, because the chemical ingredient will build to toxic levels in the bloodstream! [source](https://antidepressantsfacts.com/taper.htm) In the case of SSRIs, more unprocessed medication is absorbed into the bloodstream. As a result, elevated levels of these SSRIs travel through the blood and to the brain. [source](https://freedium.cfd/https://medium.com/invisible-illness/why-grapefruit-and-ssris-dont-mix-38d2e8bc37e7)
+
 # Other antidepressants effect has ingredients
 ## Spravato (esketamine)
-nasal spray for treatment-resistant depression and with suicidal thoughts or actions for adults (? why adults)
+Nasal spray for treatment-resistant depression and with suicidal thoughts or actions for adults (? why adults)
 
 ## Dextromethorphan
 - [Repurposing of dextromethorphan as an adjunct therapy in patients with major depressive disorder: a randomised, group sequential adaptive design, controlled clinical trial protocol](https://bmjopen.bmj.com/content/14/4/e080500.long) | [Селективные ингибиторы обратного захвата серотонина и Декстрометорфан при Сильное депрессивное расстройство - Реестр клинических исследований - ICH GCP](https://ichgcp.net/ru/clinical-trials-registry/NCT05181527)
 - [An Ingredient in Cough Syrup Could Work as an Antidepressant](https://www.vice.com/en/article/dxm-cough-syrup-antidepressant-ketamine/)
 
 ### Auvelity (Dextromethorphan/bupropion)
-Антидепресант ногового поколения. Предназначен для борьбы с большой депрессией. Approved only in US by FDA.
-Manual replication in homemade possible situation: [Декстрометорфан (DXM) + Бупропион (Auvelity) - Страница 2 - Антидепрессанты](https://neuroleptic.ru/forum/topic/21107-%D0%B4%D0%B5%D0%BA%D1%81%D1%82%D1%80%D0%BE%D0%BC%D0%B5%D1%82%D0%BE%D1%80%D1%84%D0%B0%D0%BD-dxm-%D0%B1%D1%83%D0%BF%D1%80%D0%BE%D0%BF%D0%B8%D0%BE%D0%BD-auvelity/page-2)
+New antidepresant generation. Designed for MDD threatment. Approved only in US by FDA.
+Manual replication in homemade environment: [Декстрометорфан (DXM) + Бупропион (Auvelity) - Страница 2 - Антидепрессанты](https://neuroleptic.ru/forum/topic/21107-%D0%B4%D0%B5%D0%BA%D1%81%D1%82%D1%80%D0%BE%D0%BC%D0%B5%D1%82%D0%BE%D1%80%D1%84%D0%B0%D0%BD-dxm-%D0%B1%D1%83%D0%BF%D1%80%D0%BE%D0%BF%D0%B8%D0%BE%D0%BD-auvelity/page-2)
 
 ## Фолиевая кислота в качестве дополнительной терапии к СИОЗС/СИОЗСН при большом депрессивном расстройстве
 В анализе 5 исследований у пациентов с депрессией, получавших дополнительную терапию l-метилфолатом/фолиевой кислотой выявлены значительно более низкие баллы по шкале оценки депрессии Гамильтона (HAM-D), а также комбинированные баллы HAM-D и Beck Depression Inventory-II (BDI-II). Эта дополнительная терапия также привела к улучшенному ответу, увеличению скорости наступления эффекта, и снижению показателей депрессии в зависимости от продолжительности лечения.
 - Source: [Folate as adjunct therapy to SSRI/SNRI for major depressive disorder: Systematic review & meta-analysis - PubMed](https://pubmed.ncbi.nlm.nih.gov/34450256/)
+# Natural
+## Hydration
+- Studies show that individuals who drink insufficient water face substantially higher risks of developing depressive symptoms, while adequate hydration supports both mood regulation and cognitive function. [source](https://pmc.ncbi.nlm.nih.gov/articles/PMC6147771/)
+
+---
+
+> [!info] Antidepressants side-effects chart [source](https://www.whatmedicine.org/2023/06/antidepressants-side-effects-chart.html) | [original source](https://www.uptodate.com/contents/image/print?imageKey=PC%2F62488&topicKey=PSYCH%2F1703&source=see_link)
+> ![[Antidepressants_side_effects_chart_watermark.webp|600]]
+
+
+> [!info] Depression treatment list: causes and treatment in case of mineral defficency <sup>[source](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2908269/table/T1/?report=objectonly)</sup>
+![[Depression treatment list.png|600]]
+
 
 ---
 
