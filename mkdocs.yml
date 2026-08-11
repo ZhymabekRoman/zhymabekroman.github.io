@@ -17,6 +17,7 @@ nav:
           - posts/transcribe-trial-reset.md
           - posts/ui-design_the-bad-and-the-good.md
       - Security/Pentest:
+          - posts/esxi-ransomware-without-esxi-ransomware.md
           - posts/message-from-sts.gov.kz.md
           - posts/email-dating-relationship-scam.md
           - posts/finding-a-scammer.md
